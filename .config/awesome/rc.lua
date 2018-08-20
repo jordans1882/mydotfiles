@@ -77,10 +77,10 @@ local themes = {
 local chosen_theme = themes[11]
 local modkey       = "Mod4"
 local altkey       = "Mod1"
-local terminal     = "x-terminal-emulator"
+local terminal     = "urxvt"
 local editor       = os.getenv("EDITOR") or "nvim"
 local gui_editor   = "gvim"
-local browser      = "chromium-browser"
+local browser      = "chromium"
 local guieditor    = "atom"
 local scrlocker    = "xlock"
 
@@ -230,7 +230,7 @@ globalkeys = table_join(
 
     awful.key({ modkey }, "p", function() awful.util.spawn("pavucontrol") end,
               {description = "pavucontrol", group = "hotkeys"}),
-              
+
     awful.key({ modkey }, "e", function() awful.util.spawn("thunar") end,
               {description = "thunar", group = "hotkeys"}),
     -- Take a screenshot
@@ -497,7 +497,7 @@ globalkeys = table_join(
               {description = "show the menubar", group = "launcher"})
     --]]
     --[[ dmenu
-    
+
     awful.key({ modkey }, "x", function ()
         awful.spawn(string.format("dmenu_run -i -fn 'Monospace' -nb '%s' -nf '%s' -sb '%s' -sf '%s'",
         beautiful.bg_normal, beautiful.fg_normal, beautiful.bg_focus, beautiful.fg_focus))
@@ -520,7 +520,7 @@ globalkeys = table_join(
               {description = "lua execute prompt", group = "awesome"})
     --]]
 
-    
+
 )
 
 clientkeys = table_join(
@@ -809,7 +809,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- --   sleep 15m
 -- -- done &
 
--- }}} Random backgrounds 
+-- }}} Random backgrounds
 
 -- Autostart application and processes
 awful.util.spawn_with_shell("~/.config/awesome/autostart.sh") -- Shell transperancy

@@ -220,7 +220,7 @@ alias config='/usr/bin/git --git-dir=$HOME/git_repos/mydotfiles --work-tree=$HOM
 
 # {{{ program aliases
 alias c="cmus"
-alias e="emacs25 --no-window-system"
+alias e="emacs --no-window-system"
 alias ipy="ipython"
 alias m="mutt"
 alias n="nvim"
@@ -229,6 +229,11 @@ alias r="ranger"
 alias t="tmux"
 alias v="vim"
 #  }}} program aliases
+
+# {{{ Connection aliases
+alias do_ssh="ssh -Y root@142.93.118.208"
+# }}} Connection aliases
+
 
 # {{{ User Defined Functions and bindings
 cdl() { cd "$@" && ls; }

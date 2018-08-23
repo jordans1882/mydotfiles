@@ -205,6 +205,7 @@ fzf_cd() { zle -I; DIR=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> 
 # }}} fzf
 
 # {{{ config file aliases
+alias config='/usr/bin/git --git-dir=$HOME/git_repos/mydotfiles --work-tree=$HOME'
 alias cfg-awesome="vim ~/.config/awesome/rc.lua"
 alias cfg-muttrc="vim ~/.muttrc"
 alias cfg-nvim="vim ~/.config/nvim/init.vim"

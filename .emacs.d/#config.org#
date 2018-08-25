@@ -1,3 +1,11 @@
+:#+TITLE:     My Emacs Config File
+#+AUTHOR:    Jordan Schupbach
+#+EMAIL:     jordans1882@gmail.com
+
+* Pre package load user defined options
+  
+
+#+BEGIN_SRC emacs-lisp
 ;; Set fold path
 (add-to-list 'load-path "~/.emacs.d/load-folder/")
 
@@ -20,15 +28,20 @@
 
 ;; (add-to-list 'load-path (expand-file-name "~/.emacs.d/icicles-el-files/icicles.el"))
 ;; (require 'icicles)
+#+END_SRC
 
-(load-theme 'atom-one-dark t)
-
+* Load and Configure Packages
+** airline-themes
+#+BEGIN_SRC emacs-lisp
 (use-package airline-themes)
-(load-theme 'airline-dark t)
-(load-theme 'airline-one-dark t)
-
+(load-theme 'airline-one-dark-theme t)
+#+END_SRC
+** auto-complete
+#+BEGIN_SRC emacs-lisp
 (use-package auto-complete)
-
+#+END_SRC
+** elfeed
+#+BEGIN_SRC emacs-lisp
 (use-package elfeed)
 (global-set-key (kbd "C-x w") 'elfeed)
 (use-package elfeed-org)
@@ -36,20 +49,30 @@
 (elfeed-org)
 (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org"))
 (elfeed-goodies/setup)
-
+#+END_SRC
+** ess
+#+BEGIN_SRC emacs-lisp
 (use-package ess)
-
+#+END_SRC
+** evil
+#+BEGIN_SRC emacs-lisp
 (setq evil-want-integration nil)
 (use-package evil)
 (evil-mode 1)
-
+#+END_SRC
+** evil-collection
+#+BEGIN_SRC emacs-lisp
 (use-package evil-collection)
 (when (require `evil-collection nil t)
   (evil-collection-init))
-
+#+END_SRC
+** flycheck
+#+BEGIN_SRC emacs-lisp
 (use-package flycheck)
 (add-hook 'after-init-hook #'global-flycheck-mode)
-
+#+END_SRC
+** origami
+#+BEGIN_SRC emacs-lisp
 (use-package origami)
 ;;origami https://github.com/gregsexton/origami.el
 ;; (global-origami-mode 1)
@@ -107,9 +130,14 @@
 ;;      (newline-and-indent)
 ;;      (goto-char start)
 ;;      ))
-
+#+END_SRC
+** ranger
+#+BEGIN_SRC emacs-lisp
 (use-package ranger)
 (ranger-override-dired-mode t)
+#+END_SRC
+* Post package load user defined options
+#+BEGIN_SRC emacs-lisp
 
 ;; {{{ Define evil-mode mappings for vim-style folding
 ;; (define-key evil-normal-state-map "zz" 'folding-toggle-show-hide)
@@ -146,3 +174,6 @@
 ;;
 ;;(add-hook 'python-mode-hook ama () (folding-mode)))
 ;; }}} Define evil-mode mappings for vim-style folding
+
+#+END_SRC
+

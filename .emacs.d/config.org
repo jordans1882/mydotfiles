@@ -31,10 +31,15 @@
 #+END_SRC
 
 * Load and Configure Packages
+** atom-one-dark
+#+BEGIN_SRC emacs-lisp
+(load-theme 'atom-one-dark t)
+#+END_SRC
 ** airline-themes
 #+BEGIN_SRC emacs-lisp
 (use-package airline-themes)
-(load-theme 'airline-badwolf t)
+(load-theme 'airline-dark t)
+(load-theme 'airline-one-dark t)
 #+END_SRC
 ** auto-complete
 #+BEGIN_SRC emacs-lisp

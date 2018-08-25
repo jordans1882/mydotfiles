@@ -178,6 +178,7 @@ bindkey '^S^A' zsh-snippets-widget-list    # CTRL-S CTRL-A (list)
 # }}} zsh-snippets
 
 # {{{ Basic Settings
+export PRIVATE_CONFIG_DIR="$HOME/.priv_scripts"
 export VISUAL=vim
 export EDITOR="$VISUAL"
 # export TERM="xterm"
@@ -215,7 +216,7 @@ alias cfg-vimrc="vim ~/dot_files/.vimrc"
 alias cfg-vitrc="vim ~/.vitrc"
 alias cfg-zshrc="vim ~/.zshrc"
 alias config='/usr/bin/git --git-dir=$HOME/git_repos/mydotfiles --work-tree=$HOME'
-
+alias priv_config='/usr/bin/git --git-dir=$HOME/git_repos/private_dots --work-tree=$HOME'
 
 # }}} config file aliases
 
@@ -235,6 +236,11 @@ alias v="vim"
 alias do_ssh="ssh -Y root@142.93.118.208"
 # }}} Connection aliases
 
+# {{{ Load private zsh script
+if [ -d "$PRIVATE_CONFIG_DIR" ]; then
+source $PRIVATE_CONFIG_DIR/priv_zsh.sh
+fi
+# }}} Load private zsh script
 
 # {{{ User Defined Functions and bindings
 cdl() { cd "$@" && ls; }

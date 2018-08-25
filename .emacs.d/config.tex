@@ -1,3 +1,40 @@
+% Created 2018-08-24 Fri 15:11
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{Jordan Schupbach}
+\date{\today}
+\title{My Emacs Config File}
+\hypersetup{
+ pdfauthor={Jordan Schupbach},
+ pdftitle={My Emacs Config File},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.1 (Org mode 9.1.9)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{Pre package load user defined options}
+\label{sec:orge4e991c}
+
+
+\begin{verbatim}
 ;; Set fold path
 (add-to-list 'load-path "~/.emacs.d/load-folder/")
 
@@ -20,15 +57,24 @@
 
 ;; (add-to-list 'load-path (expand-file-name "~/.emacs.d/icicles-el-files/icicles.el"))
 ;; (require 'icicles)
+\end{verbatim}
 
-(load-theme 'atom-one-dark t)
-
+\section{Load and Configure Packages}
+\label{sec:org7085195}
+\subsection{airline-themes}
+\label{sec:org820221b}
+\begin{verbatim}
 (use-package airline-themes)
 (load-theme 'airline-dark t)
-(load-theme 'airline-one-dark t)
-
+\end{verbatim}
+\subsection{auto-complete}
+\label{sec:org0fc9d5b}
+\begin{verbatim}
 (use-package auto-complete)
-
+\end{verbatim}
+\subsection{elfeed}
+\label{sec:org6e3bba4}
+\begin{verbatim}
 (use-package elfeed)
 (global-set-key (kbd "C-x w") 'elfeed)
 (use-package elfeed-org)
@@ -36,20 +82,35 @@
 (elfeed-org)
 (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org"))
 (elfeed-goodies/setup)
-
+\end{verbatim}
+\subsection{ess}
+\label{sec:org2e61154}
+\begin{verbatim}
 (use-package ess)
-
+\end{verbatim}
+\subsection{evil}
+\label{sec:org25000c1}
+\begin{verbatim}
 (setq evil-want-integration nil)
 (use-package evil)
 (evil-mode 1)
-
+\end{verbatim}
+\subsection{evil-collection}
+\label{sec:org0ad5c85}
+\begin{verbatim}
 (use-package evil-collection)
 (when (require `evil-collection nil t)
   (evil-collection-init))
-
+\end{verbatim}
+\subsection{flycheck}
+\label{sec:orgab5ce57}
+\begin{verbatim}
 (use-package flycheck)
 (add-hook 'after-init-hook #'global-flycheck-mode)
-
+\end{verbatim}
+\subsection{origami}
+\label{sec:org21829bc}
+\begin{verbatim}
 (use-package origami)
 ;;origami https://github.com/gregsexton/origami.el
 ;; (global-origami-mode 1)
@@ -107,9 +168,16 @@
 ;;      (newline-and-indent)
 ;;      (goto-char start)
 ;;      ))
-
+\end{verbatim}
+\subsection{ranger}
+\label{sec:org750a33c}
+\begin{verbatim}
 (use-package ranger)
 (ranger-override-dired-mode t)
+\end{verbatim}
+\section{Post package load user defined options}
+\label{sec:org092a84b}
+\begin{verbatim}
 
 ;; {{{ Define evil-mode mappings for vim-style folding
 ;; (define-key evil-normal-state-map "zz" 'folding-toggle-show-hide)
@@ -146,3 +214,6 @@
 ;;
 ;;(add-hook 'python-mode-hook ama () (folding-mode)))
 ;; }}} Define evil-mode mappings for vim-style folding
+
+\end{verbatim}
+\end{document}

@@ -20,7 +20,7 @@
     ("3eb93cd9a0da0f3e86b5d932ac0e3b5f0f50de7a0b805d4eb1f67782e9eb67a4" "f1b5a9c45405b433f766ffe1e4c6b211842b086da9975d110bfcb6851591bfc4" "57f95012730e3a03ebddb7f2925861ade87f53d5bbb255398357731a7b1ac0e0" default)))
  '(package-selected-packages
    (quote
-    (atom-one-dark-theme helm-R helm slime origami ranger elfeed-goodies elfeed-org elfeed folding auto-complete flycheck org ess evil-collection evil use-package))))
+    (helm-mode-manager ace-window evil-org evil-surround evil-nerd-commenter powerline-evil magit evil-leader evil-escape evil-ediff org-evil bind-key evil-easymotion tabbar evil-tabs interleave atom-one-dark-theme helm-R helm slime origami ranger elfeed-goodies elfeed-org elfeed folding auto-complete flycheck org ess evil-collection evil use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -7,9 +7,6 @@
 ;; Remove tool-bar by default
 (tool-bar-mode -1)
 
-;; Load Theme
-(load-theme 'tango-dark)
-
 ;; Vim style folding
 ;; (autoload 'folding-mode          "folding" "Folding mode" t)
 ;; (autoload 'turn-off-folding-mode "folding" "Folding mode" t)
@@ -20,6 +17,14 @@
 
 ;; (add-to-list 'load-path (expand-file-name "~/.emacs.d/icicles-el-files/icicles.el"))
 ;; (require 'icicles)
+
+;; Resize windows keybindings (none of this seems to work... :()
+(global-set-key (kbd "M-C-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "M-C-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "M-C-<up>") 'shrink-window)
+(global-set-key (kbd "M-C-<down>") 'enlarge-window)
+
+(global-set-key (kbd "M-p") 'ace-window)
 
 (load-theme 'atom-one-dark t)
 
@@ -42,6 +47,37 @@
 (setq evil-want-integration nil)
 (use-package evil)
 (evil-mode 1)
+
+(defun minibuffer-keyboard-quit ()
+  "Abort recursive edit.
+In Delete Selection mode, if the mark is active, just deactivate it;
+then it takes a second \\[keyboard-quit] to abort the minibuffer."
+  (interactive)
+  (if (and delete-selection-mode transient-mark-mode mark-active)
+      (setq deactivate-mark  t)
+    (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+    (abort-recursive-edit)))
+(define-key evil-normal-state-map [escape] 'keyboard-quit)
+(define-key evil-visual-state-map [escape] 'keyboard-quit)
+(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+
+(define-key evil-normal-state-map [<C-return>] 'ess-eval-region-or-line-and-step)
+
+(evilem-default-keybindings "SPC")
+
+(global-set-key (kbd "C-c C-g") 'evil-escape)
+
+;;(global-evil-tabs-mode t)
+
+;; (setq folding-default-keys-function
+;;      'folding-bind-backward-compatible-keys)
+
+(if (load "folding" 'nomessage 'noerror)
+    (folding-mode-add-find-file-hook))
 
 (use-package evil-collection)
 (when (require `evil-collection nil t)
@@ -110,6 +146,22 @@
 
 (use-package ranger)
 (ranger-override-dired-mode t)
+
+(require 'bind-key)
+(bind-key "C-c C-c" 'ess-eval-region-or-line-and-step)
+
+;; (defvar my-keys-minor-mode-map
+;;   (let ((map (make-sparse-keymap)))
+;;     (define-key map (kbd "C-i") 'some-function)
+;;     map)
+;;   "my-keys-minor-mode keymap.")
+;; 
+;; (define-minor-mode my-keys-minor-mode
+;;   "A minor mode so that my key settings override annoying major modes."
+;;   :init-value t
+;;   :lighter " my-keys")
+;; 
+;; (my-keys-minor-mode 1)
 
 ;; {{{ Define evil-mode mappings for vim-style folding
 ;; (define-key evil-normal-state-map "zz" 'folding-toggle-show-hide)

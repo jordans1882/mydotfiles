@@ -131,17 +131,17 @@ zplug 'eendroroy/alien', as:theme
 # zplug 'dracula/zsh', as:theme
 export ALIEN_THEME="red"
 
-#color0=018      # time background color
-#color1=226      # normal background color
-#color1r=196     # normal error background color
-#color2=254      # time foreeground color
-#color3=026      # user background color
-#color4=254      # user foreground color
-#color5=045      # dir background color
-#color6=019      # dir foreground color
-#color7=238      # vcs background color
-#color8=129      # prompt foreground color
-#color9=051      # vcs foreground color
+color0=204      # time background color
+color1=204      # normal background color
+color1r=196     # normal error background color
+color2=234      # time foreground color
+color3=180      # user background color
+color4=234      # user foreground color
+color5=078      # dir background color
+color6=234      # dir foreground color
+# color7=180      # vcs background color
+color8=204      # prompt foreground color
+# color9=249      # vcs foreground color
 #color10=244     # git left-right background color
 #color11=255     # git left-right foreground color
 #color12=253     # dirty copy background color

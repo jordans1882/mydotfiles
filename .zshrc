@@ -167,7 +167,7 @@ zplug load #--verbose
 # }}} Load zplug
 
 # {{{ zce
-source ~/dotfiles/zce.zsh
+source ~/zce.zsh
 bindkey "^Xz" zce
 # }}} zce
 
@@ -192,7 +192,7 @@ alias man='man -P vimpager'
 # }}} Basic Settings
 
 # {{{ Imports
-source ~/dotfiles/tmuxinator.zsh
+source ~/tmuxinator.zsh
 # source ~/.shell_prompt.sh
 # }}} Imports
 

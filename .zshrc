@@ -284,7 +284,7 @@ export PATH
 
 # {{{ Startup commands
 archey3
-figlet -d ~/git_repos/figlet-fonts/tlf-contrib -f 'rebel' watson | lolcat
+figlet -d ~/git_repos/figlet-fonts/tlf-contrib -f 'rebel' $HOST | lolcat
 # fortune | ponysay
 # }}} Startup commands
 

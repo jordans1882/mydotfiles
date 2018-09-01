@@ -205,7 +205,7 @@ Plug 'tbabej/taskwiki' " TaskWarrior plus vimwiki
 Plug 'tpope/vim-fugitive' " Awesome git plugin (:Gdiff :Gstatus :Gcommit :Git)
 Plug 'tpope/vim-dispatch' " Asynchronous jobs
 Plug 'tpope/vim-surround' " Tim Popes easy surround with quotes
-Plug 'Valloric/YouCompleteMe' " Completion engine
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }" Completion engine
 Plug 'vimwiki/vimwiki', { 'branch': 'dev' } " Vim Wiki project management
 Plug 'vim-airline/vim-airline' " Customize vim statusline
 Plug 'vim-airline/vim-airline-themes' " Use airline theme
@@ -253,8 +253,7 @@ Plug 'godlygeek/tabular'
 
 " Need to copy colors folder in .vim/Plugin/vim-colorschemes to .vim/ folder
 " before this works
-Plug 'flazz/vim-colorschemes' " Nice large library of colorschemes
-
+Plug 'flazz/vim-colorschemes', { 'do': 'cp -r ~/.vim/plugged/vim-colorschemes/colors ~/.vim/colors' } " Nice large library of colorschemes
 " Need taskwarrior
 Plug 'blindFS/vim-taskwarrior'
 

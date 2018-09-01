@@ -1,3 +1,6 @@
 [submodule "git_repos/zplug"]
 	path = git_repos/zplug
 	url = https://github.com/zplug/zplug.git
+[submodule "/home/jordan/.tmux/plugins/tpm"]
+	path = /home/jordan/.tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm

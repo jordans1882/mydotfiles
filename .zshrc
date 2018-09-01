@@ -93,7 +93,7 @@ source $ZPLUG_HOME/init.zsh
 
 # {{{ oh-my-zsh plugins
 
-# zplug "plugins/archlinux",   from:oh-my-zsh #Only need on archlinux machines
+zplug "plugins/archlinux",   from:oh-my-zsh #Only need on archlinux machines
 zplug "plugins/colored-man-pages",   from:oh-my-zsh
 zplug "plugins/colorize",   from:oh-my-zsh
 zplug "plugins/dirhistory",   from:oh-my-zsh
@@ -285,7 +285,7 @@ export PATH
 # }}} Path variables
 
 # {{{ Startup commands
-archey3
+archey4
 figlet -d ~/git_repos/figlet-fonts/tlf-contrib -f 'rebel' $HOST | lolcat
 # fortune | ponysay
 # }}} Startup commands

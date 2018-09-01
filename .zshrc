@@ -1,4 +1,6 @@
-source ~/.zplug/init.zsh
+
+ZPLUG_HOME=$HOME/git_repos/zplug
+source $ZPLUG_HOME/init.zsh
 
 # {{{ zplug examples
 # # Make sure to use double quotes

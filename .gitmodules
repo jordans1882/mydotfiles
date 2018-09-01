@@ -1,0 +1,3 @@
+[submodule "git_repos/zplug"]
+	path = git_repos/zplug
+	url = https://github.com/zplug/zplug.git

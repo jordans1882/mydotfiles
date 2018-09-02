@@ -59,6 +59,36 @@ URxvt.perl-ext-common: default,selection-to-clipboard,matcher,keyboard-select,ta
 ! URxvt.tabbed.tab-fg:    <colour-index, default 0>
 ! URxvt.tabbed.tab-bg:    <colour-index, default 1>
 
+URxvt.tabbedex.no-tabbedex-keys: yes
+URxvt.keysym.Shift-Left:    tabbedex:prev_tab
+URxvt.keysym.Shift-Right:   tabbedex:next_tab
+URxvt.keysym.Shift-Down:    tabbedex:new_tab
+URxvt.keysym.Shift-Up:      tabbedex:rename_tab
+URxvt.keysym.Control-Left:  tabbedex:move_tab_left
+URxvt.keysym.Control-Right: tabbedex:move_tab_right
+URxvt.keysym.Meta-F1:       tabbedex:goto_tab_1
+URxvt.keysym.Meta-F2:       tabbedex:goto_tab_2
+URxvt.keysym.Meta-F3:       tabbedex:goto_tab_3
+URxvt.keysym.Meta-F4:       tabbedex:goto_tab_4
+URxvt.keysym.Meta-F5:       tabbedex:goto_tab_5
+URxvt.keysym.Meta-F6:       tabbedex:goto_tab_6
+URxvt.keysym.Meta-F7:       tabbedex:goto_tab_7
+URxvt.keysym.Meta-F8:       tabbedex:goto_tab_8
+URxvt.keysym.Meta-F9:       tabbedex:goto_tab_9
+URxvt.keysym.Meta-F10:      tabbedex:goto_tab_10
+URxvt.keysym.Meta-F11:      tabbedex:goto_tab_11
+URxvt.keysym.Meta-F12:      tabbedex:goto_tab_12
+
+!
+! Percent sign means name of the current plugin.
+URxvt.tabbed.tabbedex-rs-prefix: %
+
+! Affects tabbedex plugin only:
+URxvt.tabbedex.tabbar-fg: 0
+URxvt.tabbedex.tabbar-bg: 0
+! URxvt.tabbedex.tab-fg: 0
+! URxvt.tabbedex.tab-bg: 2
+
 
 URxvt.keysym.M-u:     perl:url-select:select_next
 URxvt.url-launcher:   /usr/bin/firefox

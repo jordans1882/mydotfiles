@@ -1,7 +1,13 @@
+# {{{ Header
+# Author: Jordan Schupbach
+# Date: September 1, 2018
+# Purpose: September 1, 2018
+# }}} Header
 
+# {{{ Load zplug
 ZPLUG_HOME=$HOME/git_repos/zplug
 source $ZPLUG_HOME/init.zsh
-
+# }}} Load zplug
 # {{{ zplug examples
 # # Make sure to use double quotes
 # zplug "zsh-users/zsh-history-substring-search"
@@ -88,7 +94,6 @@ source $ZPLUG_HOME/init.zsh
 #
 #
 # }}} zplug examples
-
 # {{{ zplug plugins
 
 # {{{ oh-my-zsh plugins
@@ -111,9 +116,10 @@ zplug "plugins/z",   from:oh-my-zsh
 zplug "plugins/zsh-navigation-tools",   from:oh-my-zsh
 
 # }}} oh-my-zsh plugins
-
 # {{{ github
 
+zplug "hchbaw/zce.zsh"
+zplug "1ambda/zsh-snippets"
 zplug "zsh-users/fizsh"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting"
@@ -122,12 +128,10 @@ zplug "zsh-users/zsh-history-substring-search"
 zplug "zsh-users/zaw"
 
 # }}} zplug plugins
-
 # {{{ theme
 # Load theme file
 zplug 'eendroroy/alien', as:theme
 # }}} theme
-
 # {{{ theme settings
 # # Load theme file
 # zplug 'dracula/zsh', as:theme
@@ -152,9 +156,21 @@ color8=204      # prompt foreground color
 
 export USE_NERD_FONT=1
 # }}} theme settings
+# {{{ plugin settings
+
+# {{{ zce
+# source ZPLUG_HOME/
+bindkey "^Xz" zce
+# }}} zce
+# {{{ zsh-snippets
+alias zsp="zsh_snippets"
+# bindkey '^S^S' zsh-snippets-widget-expand  # CTRL-S CTRL-S (expand)
+# bindkey '^S^A' zsh-snippets-widget-list    # CTRL-S CTRL-A (list)
+# }}} zsh-snippets
+
+# }}} Plugin settings
 
 # }}} zplug plugins
-
 # {{{ Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "
@@ -163,22 +179,9 @@ if ! zplug check --verbose; then
     fi
 fi
 # }}} Install plugins if there are plugins that have not been installed
-
 # {{{ Load zplug
 zplug load #--verbose
 # }}} Load zplug
-
-# {{{ zce
-source ~/zce.zsh
-bindkey "^Xz" zce
-# }}} zce
-
-# {{{ zsh-snippets
-alias zsp="zsh_snippets"
-bindkey '^S^S' zsh-snippets-widget-expand  # CTRL-S CTRL-S (expand)
-bindkey '^S^A' zsh-snippets-widget-list    # CTRL-S CTRL-A (list)
-# }}} zsh-snippets
-
 # {{{ Basic Settings
 export PRIVATE_CONFIG_DIR="$HOME/.priv_scripts"
 export VISUAL=vim
@@ -192,12 +195,10 @@ alias zless=$PAGER
 alias man='man -P vimpager'
 
 # }}} Basic Settings
-
 # {{{ Imports
 source ~/tmuxinator.zsh
 # source ~/.shell_prompt.sh
 # }}} Imports
-
 # {{{ fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -206,7 +207,6 @@ fzf_history() { zle -I; eval $(history | fzf +s | sed 's/ *[0-9]* *//') ; }; zle
 fzf_cd() { zle -I; DIR=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf) && cd "$DIR" ; }; zle -N fzf_cd; bindkey '^E' fzf_cd
 
 # }}} fzf
-
 # {{{ config file aliases
 alias config='/usr/bin/git --git-dir=$HOME/git_repos/mydotfiles --work-tree=$HOME'
 alias cfg-awesome="vim ~/.config/awesome/rc.lua"
@@ -221,7 +221,6 @@ alias config='/usr/bin/git --git-dir=$HOME/git_repos/mydotfiles --work-tree=$HOM
 alias priv_config='/usr/bin/git --git-dir=$HOME/git_repos/private_dots --work-tree=$HOME'
 
 # }}} config file aliases
-
 # {{{ program aliases
 alias c="cmus"
 alias e="emacs --no-window-system"
@@ -233,17 +232,14 @@ alias r="ranger"
 alias t="tmux"
 alias v="vim"
 #  }}} program aliases
-
 # {{{ Connection aliases
 alias do_ssh="ssh -Y root@142.93.118.208"
 # }}} Connection aliases
-
 # {{{ Load private zsh script
 if [ -d "$PRIVATE_CONFIG_DIR" ]; then
 source $PRIVATE_CONFIG_DIR/priv_zsh.sh
 fi
 # }}} Load private zsh script
-
 # {{{ User Defined Functions and bindings
 cdl() { cd "$@" && ls; }
 
@@ -264,10 +260,8 @@ zle -N up-a-directory
 bindkey '^k' up-a-directory
 
 # }}} User Defined Functions and bindings
-
 # {{{ Path variables
 
-export PATH=/usr/local/cuda-9.1/bin${PATH:+:${PATH}}
 
 # export LD_LIBRARY_PATH=/usr/local/cuda-9.1/lib64\
 #                          ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
@@ -276,20 +270,19 @@ LD_LIBRARY_PATH=/usr/local/pgsql/lib:$LD_LIBRARY_PATH
 
 export LD_LIBRARY_PATH
 
+export PATH=/usr/local/cuda-9.1/bin${PATH:+:${PATH}}
 PATH=/usr/local/pgsql/bin:$PATH
-export PATH
-
 PATH=/home/jordan/git_repos/dipha/build:$PATH
+PATH=/home/jordan/.gem/ruby/2.5.0/bin:$PATH
+# PATH=/home/jordan/go/bin:$PATH
 export PATH
 
 # }}} Path variables
-
 # {{{ Startup commands
 archey4
-figlet -d ~/git_repos/figlet-fonts/tlf-contrib -f 'rebel' $HOST | lolcat
+figlet -d ~/git_repos/figlet-fonts.git/tlf-contrib -f 'rebel' $HOST | lolcat
 # fortune | ponysay
 # }}} Startup commands
-
 # {{{ vim modelines
 # vim: set foldmethod=marker:
 # }}} vim modelines

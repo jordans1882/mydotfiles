@@ -17,10 +17,8 @@
 "                   colors folder into .vim/colors/
 "               - lintr R package for syntax highlighting (follow instructions
 "                 on lintr repo
-"               - Ack (not sure if I want this)
 " }}} File Description
 " {{{ TODO
-"
 " - modify comfy IDE to be useful
 " }}} TODO
 " {{{ Load Vim-plug
@@ -31,35 +29,6 @@ call plug#begin('~/.vim/plugged')
 
 " Make sure you use single quotes
 " }}} Load Vim-plug
-" {{{ Vim-plug Examples (Maybe delete this?)
-" " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
-" Plug 'junegunn/vim-easy-align'
-"
-" " Any valid git URL is allowed
-" Plug 'https://github.com/junegunn/vim-github-dashboard.git'
-"
-" " Multiple Plug commands can be written in a single line using | separators
-" Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-"
-" " On-demand loading
-" Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-" Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-"
-" " Using a non-master branch
-" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-"
-" " Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
-" Plug 'fatih/vim-go', { 'tag': '*' }
-"
-" " Plugin options
-" Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
-"
-" " Plugin outside ~/.vim/plugged with post-update hook
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-"
-" " Unmanaged plugin (manually installed and updated)
-" Plug '~/my-prototype-plugin'
-" }}} Vim-plug Examples
 " {{{ Basic Vim Settings
 syntax on
 filetype plugin indent on
@@ -72,13 +41,16 @@ set splitbelow
 set splitright
 set encoding=utf-8
 
-
-
 "split navigations
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+" " Save with control-s
+" nmap <c-s> :w<CR>
+" vmap <c-s> <Esc><c-s>gv
+" imap <c-s> <Esc><c-s>
 
 " {{{ Save vim folds
 autocmd BufWinLeave *.* mkview
@@ -90,7 +62,6 @@ let colorbg = "dark"
 " {{{ Language specific settings
 " python
 autocmd BufNewFile,BufRead *.py set keywordprg=pydoc
-
 " }}}
 " {{{ User defined functions and  keybindings
 
@@ -148,23 +119,65 @@ function! MyDeleteView()
 endfunction
 
 " # Command Delview (and it's abbreviation 'delview')
-command Delview call MyDeleteView()
+" command Delview call MyDeleteView()
 
 
 " }}} User defined functions and  keybindingds
 " {{{ Plugins I try to use
 
-" {{{ Plugins with no dependencies
+" {{{ Vim-plug Examples (Maybe delete this?)
+" " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+" Plug 'junegunn/vim-easy-align'
+"
+" " Any valid git URL is allowed
+" Plug 'https://github.com/junegunn/vim-github-dashboard.git'
+"
+" " Multiple Plug commands can be written in a single line using | separators
+" Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+"
+" " On-demand loading
+" Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+" Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+"
+" " Using a non-master branch
+" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+"
+" " Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
+" Plug 'fatih/vim-go', { 'tag': '*' }
+"
+" " Plugin options
+" Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
+"
+" " Plugin outside ~/.vim/plugged with post-update hook
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+"
+" " Unmanaged plugin (manually installed and updated)
+" Plug '~/my-prototype-plugin'
+" }}} Vim-plug Examples
+" {{{ vim plug functions
+function! BuildComposer(info)
+  if a:info.status != 'unchanged' || a:info.force
+    if has('nvim')
+      !cargo build --release
+    else
+      !cargo build --release --no-default-features --features json-rpc
+    endif
+  endif
+endfunction
+" }}} vim plug functions
+" {{{ Plugins
 Plug 'airblade/vim-gitgutter' " Show git info in airline
+Plug 'beloglazov/vim-online-thesaurus' " thesaurus from thesaurus.com
 Plug 'benmills/vimux' " VimuxRunCommand; VimuxRunLastCommand ; tmux interface
+Plug 'blindFS/vim-taskwarrior'
 Plug 'drgarcia1986/python-compilers.vim' " python compilers
 Plug 'easymotion/vim-easymotion' "<leader> f, s, L, and w easily jump
-" if !empty($TMUX)
-"   Plug 'edkolev/tmuxline.vim' " Customize Tmux statusbar
-" endif
 Plug 'edkolev/promptline.vim' " Can't seem to get working (though vimux works fine)
 Plug 'ervandew/supertab' " Use tab to autocomplete
+Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+Plug 'flazz/vim-colorschemes', { 'do': 'cp -r ~/.vim/plugged/vim-colorschemes/colors ~/.vim/colors' } " Nice large library of colorschemes
 " Plug 'garbas/vim-snipmate' " needed for snippets (saved in .vim/plugged/vim-snippets/snippets)
+Plug 'godlygeek/tabular'
 Plug 'haya14busa/incsearch.vim' " Highlight all instances of word in inc search
 Plug 'honza/vim-snippets' " Save snippets of code for quick
 Plug 'jalvesaq/Nvim-R' " Interface with R
@@ -174,23 +187,22 @@ Plug 'jceb/vim-orgmode' " org mode for vim
 Plug 'jeetsukumaran/vim-markology' " Interface with R
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim' " Interface with R
+Plug 'junegunn/goyo.vim' " Focus on current vim window
+Plug 'junegunn/gv.vim' " A git commit browser
+Plug 'junegunn/vim-github-dashboard' " Focus on current vim window
 Plug 'jsfaint/gen_tags.vim' " async ctags
 Plug 'jpalardy/vim-slime'  " slime (emacs)
 Plug 'kana/vim-smartword'  " Smarter word movement (for coding and hrefs)
 Plug 'kien/ctrlp.vim' " Do I actually want this?
 Plug 'ludovicchabant/vim-gutentags' " tags management
+Plug 'majutsushi/tagbar'
 Plug 'manasthakur/vim-asyncmake' " Asynchronous commandline
 Plug 'maxbrunsfeld/vim-yankstack' " Access old yanks w/ meta p and P
 Plug 'mbbill/undotree'  " Visualize undo tree with UndoTreeShow
 Plug 'michaeljsmith/vim-indent-object' " indent with <count> ai ii aI iI
 Plug 'nathanaelkane/vim-indent-guides' " Indent guides
 Plug 'mhinz/vim-startify'
-
-" Track the engine.?
-
-
 Plug 'nvie/vim-flake8' " Flake8
-" Plug 'python-mode/python-mode' " python-mode
 Plug 'rafaqz/ranger.vim' " use ranger
 Plug 'reedes/vim-wordy' " Word suggestions for prose with :Wordy <tab> and :NoWordy
 Plug 'reedes/vim-lexical' " Dictionairy and thesaurus
@@ -200,6 +212,7 @@ Plug 'scrooloose/nerdcommenter' "comment with <leader> cc
 Plug 'scrooloose/nerdtree' " Nice filebrowser
 Plug 'SirVer/ultisnips' " Snippet manater
 Plug 'skywind3000/asyncrun.vim' " Asynchronous run cmd
+Plug 'szw/vim-tags'
 Plug 'terryma/vim-expand-region' " Easily select chunks of code w/ + in nm mode
 Plug 'tbabej/taskwiki' " TaskWarrior plus vimwiki
 Plug 'tpope/vim-fugitive' " Awesome git plugin (:Gdiff :Gstatus :Gcommit :Git)
@@ -217,220 +230,16 @@ Plug 'vim-scripts/pydoc.vim' " Python Documentation
 Plug 'vim-scripts/python_fold' " Python folds
 Plug 'vim-scripts/taglist.vim' " Open up list of tags for a (project?)
 Plug 'vim-scripts/SearchComplete' " tab completion in / search
+Plug 'vim-scripts/ZoomWin' " zoom in and out of windows with <c-w>o
 Plug 'wellle/tmux-complete.vim' " autocomplete from tmux pane
-Plug 'szw/vim-tags'
-Plug 'majutsushi/tagbar'
-nmap <F8> :TagbarToggle<CR>
-
-
-" Plug 'vim-syntastic/syntastic' " Syntax checking - See lintr package for R
 Plug 'w0rp/ale' " Syntax checking - See lintr package for R
 Plug 'yegappan/mru' "Most recently used :MRU
-" Plug 'suan/vim-instant-markdown' "Most recently used :MRU
 
-function! BuildComposer(info)
-  if a:info.status != 'unchanged' || a:info.force
-    if has('nvim')
-      !cargo build --release
-    else
-      !cargo build --release --no-default-features --features json-rpc
-    endif
-  endif
-endfunction
-
-Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
-" g:markdown_composer_browser='chromium-browser'
-" }}} Plugins with no dependencies
-" {{{ Plugins with dependencies
-
-" Not totaly sure these are all worth theier dependencies?
-" need to install ack first
-Plug 'mileszs/ack.vim' " Do I actually want this?
-
-" need vim-addon-mw-utils (a library or vim plugin?)
-"
-Plug 'godlygeek/tabular'
-
-" Need to copy colors folder in .vim/Plugin/vim-colorschemes to .vim/ folder
-" before this works
-Plug 'flazz/vim-colorschemes', { 'do': 'cp -r ~/.vim/plugged/vim-colorschemes/colors ~/.vim/colors' } " Nice large library of colorschemes
-" Need taskwarrior
-Plug 'blindFS/vim-taskwarrior'
-
-" Need rope
-Plug 'python-rope/ropevim'
-" }}} Plugins with dependencies
+" }}} Plugins
 
 " }}} Plugins I try to use
 " {{{ Plugin settings
 
-" {{{ NERDcommenter (Not sure about these settings)
-" Add spaces after comment delimiters by default
-let g:NERDSpaceDelims = 1
-
-" Use compact syntax for prettified multi-line comments
-let g:NERDCompactSexyComs = 1
-
-" Align line-wise comment delimiters flush left instead of following code
-" indentation
-let g:NERDDefaultAlign = 'left'
-
-" Set a language to use its alternate delimiters by default
-let g:NERDAltDelims_java = 1
-
-" Add your own custom formats or override the defaults
-let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
-
-" Allow commenting and inverting empty lines (useful when commenting a
-" region)
-let g:NERDCommentEmptyLines = 1
-
-" Enable trimming of trailing whitespace when uncommenting
-let g:NERDTrimTrailingWhitespace = 1
-
-" }}} NERDcommenter
-" {{{ Ranger.vim
-map <leader>rr :RangerEdit<cr>
-map <leader>rv :RangerVSplit<cr>
-map <leader>rs :RangerSplit<cr>
-map <leader>rt :RangerTab<cr>
-map <leader>ri :RangerInsert<cr>
-map <leader>ra :RangerAppend<cr>
-map <leader>rc :set operatorfunc=RangerChangeOperator<cr>g@
-map <leader>rR :set operatorfunc=RangerBrowseEdit<cr>g@
-map <leader>rT :set operatorfunc=RangerBrowseTab<cr>g@
-map <leader>rS :set operatorfunc=RangerBrowseSplit<cr>g@
-map <leader>rV :set operatorfunc=RangerBrowseVSplit<cr>g@
-" }}} Ranger.vim
-" {{{ Syntastic and lintr
-let g:syntastic_enable_r_lintr_checker = 1
-let g:syntastic_r_checkers = ['lintr']
-let g:syntastic_rmd_checkers = ['lintr']
-let g:syntastic_rnw_checkers = ['lintr']
-let g:syntastic_rnoweb_checkers = ['lintr']
-let g:syntastic_check_on_open = 1
-" let g:syntastic_r_lintr_linters = "with_defaults(line_length_linter(120),todo_comment_linter)"
-" Include this for undesirable function lintr
-" , undesirable_function_linter(fun = default_undesirable_functions)
-" }}} Syntastic and lintr
-" {{{ TMUX-line
-" Use this if you don't want taskwarrior tab
-" let g:tmuxline_preset = {
-"       \'a'    : '#S',
-"       \'b'    : '#I',
-"       \'c'    : '#P',
-"       \'win'  : '#I #W',
-"       \'cwin' : '#I #W',
-"       \'x'    : '#W %R',
-"       \'y'    : '#W %R',
-"       \'z'    : '#(whoami)'}
-" if !empty($TMUX)
-" let g:tmuxline_preset = {
-"       \'a'    : '#S',
-"        \'b'    : '#I',
-"       \'c'    : '#P',
-"       \'win'  : '#I #W',
-"       \'cwin' : '#I #W',
-"       \'x'      : ['Current Task:', '#(task active | tail -4 | head -1 | tr -s " " | cut -d " " -f 8-)']}
-"
-" "      \'x'      : ['Current Task:', '#(task active | tail -4 | head -1 | tr -s " " | cut -d " " -f 8-)'],
-" autocmd VimEnter * Tmuxline " Load Tmuxline at startup
-" endif
-"
-" }}} TMUX-line
-" {{{ Tmuxline theme
-" Diff colors for taskwarrior based on active or not
-" if !empty($TMUX)
-" " {{{ TMUX-line
-" " Use this if you don't want taskwarrior tab
-" " let g:tmuxline_preset = {
-" "       \'a'    : '#S',
-" "       \'b'    : '#I',
-" "       \'c'    : '#P',
-" "       \'win'  : '#I #W',
-" "       \'cwin' : '#I #W',
-" "       \'x'    : '#W %R',
-" "       \'y'    : '#W %R',
-" "       \'z'    : '#(whoami)'}
-" let g:tmuxline_preset = {
-"       \'a'    : '#S',
-"        \'b'    : '#I',
-"       \'c'    : '#P',
-"       \'win'  : '#I #W',
-"       \'cwin' : '#I #W',
-"       \'x'      : ['Current Task:', '#(task active | head -5 | tail -2 | head -1 | tr -s " " | cut -d " " -f 6-)']}
-"
-" "      \'x'      : ['Current Task:', '#(task active | tail -2 | head -1 | tr -s " " | cut -d " " -f 8-)'],
-" autocmd VimEnter * Tmuxline " Load Tmuxline at startup
-"
-" " }}} TMUX-line
-" " {{{ Tmuxline theme
-" " Diff colors for taskwarrior based on active or not
-" let currtasks = empty(systemlist('task active | tail -4 | head -1 | tr -s " " | cut -d " " -f 8-'))
-" let g:airline#extensions#tmuxline#enabled = 0
-" if currtasks
-"  let g:tmuxline_theme = {
-"         \'a'    : [ 236, 103 ],
-"         \'b'    : [ 253, 239 ],
-"         \'c'    : [ 244, 236 ],
-"         \'win'  : [ 253, 239 ],
-"         \'cwin' : [ 236, 103 ],
-"         \'x'    : [ 220, 160 ],
-"         \'y'    : [ 236, 103 ],
-"         \'z'    : [ 244, 236 ],
-"     \   'bg'   : [ 244, 236 ],
-"     \ }
-" let g:tmuxline_preset = {
-"       \'a'    : '#S',
-"        \'b'    : '#I',
-"       \'c'    : '#P',
-"       \'win'  : '#I #W',
-"       \'cwin' : '#I #W',
-"       \'x'      : ['Current Task: Warning! No current task!']}
-"  else
-"   let g:tmuxline_theme = {
-"          \'a'    : [ 236, 103 ],
-"          \'b'    : [ 253, 239 ],
-"          \'c'    : [ 244, 236 ],
-"          \'win'  : [ 253, 239 ],
-"          \'cwin' : [ 236, 103 ],
-"          \'x'    : [ 220, 105 ],
-"          \'y'    : [ 236, 103 ],
-"          \'z'    : [ 244, 236 ],
-"      \   'bg'   : [ 244, 236 ],
-"      \ }
-"  endif
-" " }}} Tmuxline theme
-" let currtasks = empty(systemlist('task active | tail -4 | head -1 | tr -s " " | cut -d " " -f 8-'))
-" let g:airline#extensions#tmuxline#enabled = 0
-" if currtasks
-"  let g:tmuxline_theme = {
-"         \'a'    : [ 236, 103 ],
-"         \'b'    : [ 253, 239 ],
-"         \'c'    : [ 244, 236 ],
-"         \'win'  : [ 253, 239 ],
-"         \'cwin' : [ 236, 103 ],
-"         \'x'    : [ 220, 160 ],
-"         \'y'    : [ 236, 103 ],
-"         \'z'    : [ 244, 236 ],
-"     \   'bg'   : [ 244, 236 ],
-"     \ }
-"  else
-"   let g:tmuxline_theme = {
-"          \'a'    : [ 236, 103 ],
-"          \'b'    : [ 253, 239 ],
-"          \'c'    : [ 244, 236 ],
-"          \'win'  : [ 253, 239 ],
-"          \'cwin' : [ 236, 103 ],
-"          \'x'    : [ 220, 105 ],
-"          \'y'    : [ 236, 103 ],
-"          \'z'    : [ 244, 236 ],
-"      \   'bg'   : [ 244, 236 ],
-"      \ }
-"  endif
-"  endif
-
-" }}} Tmuxline theme
 " {{{ ale
 let g:ale_linters = {
       \   'c': ['gcc'],
@@ -460,19 +269,154 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
 
 " }}} ale
-" {{{ ropevim
-let ropevim_vim_completion=1
-" }}} ropevim
-" {{{ vim-slime
-let g:slime_python_ipython = 1
-let g:slime_target = "tmux"
-" }}} vim-slime
+" {{{ FZF
+
+if has('nvim') || has('gui_running')
+  let $FZF_DEFAULT_OPTS .= ' --inline-info'
+endif
+
+" Hide statusline of terminal buffer
+autocmd! FileType fzf
+autocmd  FileType fzf set laststatus=0 noshowmode noruler
+  \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+" nnoremap <silent> <Leader><Leader> :Files<CR>
+nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Files\<cr>"
+nnoremap <silent> <Leader>C        :Colors<CR>
+nnoremap <silent> <Leader><Enter>  :Buffers<CR>
+nnoremap <silent> <Leader>L        :Lines<CR>
+nnoremap <silent> <Leader>ag       :Ag <C-R><C-W><CR>
+nnoremap <silent> <Leader>AG       :Ag <C-R><C-A><CR>
+xnoremap <silent> <Leader>ag       y:Ag <C-R>"<CR>
+nnoremap <silent> <Leader>`        :Marks<CR>
+" nnoremap <silent> q: :History:<CR>
+" nnoremap <silent> q/ :History/<CR>
+
+nnoremap <C-t> :tabnew<cr>
+nnoremap <C-w> :tabclose<cr>
+nnoremap <C-<tab>> :tabnext<cr>
+nnoremap g1 :1tabn<cr>
+nnoremap g2 :2tabn<cr>
+nnoremap g3 :3tabn<cr>
+nnoremap g4 :4tabn<cr>
+nnoremap g5 :5tabn<cr>
+nnoremap g6 :6tabn<cr>
+nnoremap g7 :7tabn<cr>
+nnoremap g8 :8tabn<cr>
+nnoremap g9 :9tabn<cr>
+
+
+inoremap <expr> <c-x><c-t> fzf#complete('tmuxwords.rb --all-but-current --scroll 500 --min 5')
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+inoremap <expr> <c-x><c-d> fzf#vim#complete#path('blsd')
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+
+function! s:plug_help_sink(line)
+  let dir = g:plugs[a:line].dir
+  for pat in ['doc/*.txt', 'README.md']
+    let match = get(split(globpath(dir, pat), "\n"), 0, '')
+    if len(match)
+      execute 'tabedit' match
+      return
+    endif
+  endfor
+  tabnew
+  execute 'Explore' dir
+endfunction
+
+command! PlugHelp call fzf#run(fzf#wrap({
+  \ 'source': sort(keys(g:plugs)),
+  \ 'sink':   function('s:plug_help_sink')}))
+
+" }}}
+" {{{ Markdown-composer
+" g:markdown_composer_browser='chromium-browser'
+" }}} Markdown-composer
+" {{{ NERDcommenter (Not sure about these settings)
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code
+" indentation
+let g:NERDDefaultAlign = 'left'
+
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+
+" Allow commenting and inverting empty lines (useful when commenting a
+" region)
+let g:NERDCommentEmptyLines = 1
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+
+" }}} NERDcommenter
 " {{{ Nvim-R
 let R_in_buffer = 0
 let R_term="urxvt"
 let R_assign = 2
 " let R_rconsole_width = 0
 " }}} Nvim-R
+" {{{ Ranger.vim
+map <leader>rr :RangerEdit<cr>
+map <leader>rv :RangerVSplit<cr>
+map <leader>rs :RangerSplit<cr>
+map <leader>rt :RangerTab<cr>
+map <leader>ri :RangerInsert<cr>
+map <leader>ra :RangerAppend<cr>
+map <leader>rc :set operatorfunc=RangerChangeOperator<cr>g@
+map <leader>rR :set operatorfunc=RangerBrowseEdit<cr>g@
+map <leader>rT :set operatorfunc=RangerBrowseTab<cr>g@
+map <leader>rS :set operatorfunc=RangerBrowseSplit<cr>g@
+map <leader>rV :set operatorfunc=RangerBrowseVSplit<cr>g@
+" }}} Ranger.vim
+" {{{ ropevim (not active)
+" let ropevim_vim_completion=1
+" }}} ropevim
+" {{{ Syntastic and lintr (not active in favor of ale)
+let g:syntastic_enable_r_lintr_checker = 1
+let g:syntastic_r_checkers = ['lintr']
+let g:syntastic_rmd_checkers = ['lintr']
+let g:syntastic_rnw_checkers = ['lintr']
+let g:syntastic_rnoweb_checkers = ['lintr']
+let g:syntastic_check_on_open = 1
+" let g:syntastic_r_lintr_linters = "with_defaults(line_length_linter(120),todo_comment_linter)"
+" Include this for undesirable function lintr
+" , undesirable_function_linter(fun = default_undesirable_functions)
+" }}} Syntastic and lintr
+" {{{ tagbar
+nmap <F8> :TagbarToggle<CR>
+" }}} tagbar
 " {{{ vimwiki
 let g:vimwiki_folding='list'
 " }}} vimwiki
@@ -562,6 +506,16 @@ nmap <Leader>L <Plug>(easymotion-overwin-line)
 map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
 " }}} vim-easymotion
+" {{{ vim-github-dashboard
+" Default configuration for public GitHub
+let g:github_dashboard = {
+\ 'username': 'jordans1882'
+\ }
+" }}} vim-github-dashboard
+" {{{ vim-slime
+let g:slime_python_ipython = 1
+let g:slime_target = "tmux"
+" }}} vim-slime
 " {{{ vim-startify
 
 let g:startify_custom_header          = [
@@ -656,6 +610,10 @@ let g:task_left_arrow      = ' <<'
 let g:task_left_arrow      = '>> '
 " }}} vim-taskwarrior
 
+
+
+
+
 " TODO: Figure our why this has to go after plugin settings
 " i.e. which plugin is setting these.. probably color plugin?
 set cursorline
@@ -681,7 +639,10 @@ command! ReplacePlus %s/\s\@<!+\+\s\@!/ \0 /g
 
 
 " }}} Syntax fix functions
-
+" {{{ AUTOCMD
+autocmd BufWritePre * :DeleteTrailingWhitespace
+" }}} AUTOCMD
+" {{{ toward non-marker style folds
 function! MarkdownFolds()
   let l:thisline = getline(v:lnum)
   if match(l:thisline, '^##') >= 0
@@ -693,7 +654,7 @@ function! MarkdownFolds()
     endif
   endif
 endfunction
-
+" }}} toward non-marker style folds
 " {{{ vim modelines
 " vim: set foldmethod=marker:
 " }}} vim modelines

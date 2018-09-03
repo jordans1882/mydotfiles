@@ -29,9 +29,9 @@ data.location=~/.task
 #include /usr/share/doc/task/rc/solarized-light-256.theme
 #include /usr/share/doc/task/rc/no-color.theme
 
-taskd.certificate=~/intheam_certs/private.certificate.pem
-taskd.key=~/intheam_certs/private.key.pem
-taskd.ca=~/intheam_certs/ca.cert.pem
+taskd.certificate=~/.intheam/private.certificate.pem
+taskd.key=~/.intheam/private.key.pem
+taskd.ca=~/.intheam/ca.cert.pem
 taskd.server=taskwarrior.inthe.am:53589
 taskd.credentials=inthe_am/jordans1882/e8acf767-c185-4809-a3ff-1c6a4fb6cdb7
 taskd.trust=ignore hostname

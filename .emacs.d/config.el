@@ -144,6 +144,26 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;      (goto-char start)
 ;;      ))
 
+(setq org-agenda-files (list "~/schedule.org"))
+
+;; (require 'org-gcal)
+
+;; (setq org-capture-templates
+;;       '(("a" "Appointment" entry (file  "~/Dropbox/orgfiles/gcal.org" )
+;; 	 "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+;; 	("l" "Link" entry (file+headline "~/Dropbox/orgfiles/links.org" "Links")
+;; 	 "* %? %^L %^g \n%T" :prepend t)
+;; 	("b" "Blog idea" entry (file+headline "~/Dropbox/orgfiles/i.org" "Blog Topics:")
+;; 	 "* %?\n%T" :prepend t)
+;; 	("t" "To Do Item" entry (file+headline "~/Dropbox/orgfiles/i.org" "To Do")
+;; 	 "* TODO %?\n%u" :prepend t)
+;; 	("n" "Note" entry (file+headline "~/Dropbox/orgfiles/i.org" "Note space")
+;; 	 "* %?\n%u" :prepend t)
+;; 	("j" "Journal" entry (file+datetree "~/Dropbox/journal.org")
+;; 	 "* %?\nEntered on %U\n  %i\n  %a")
+;; 	("s" "Screencast" entry (file "~/Dropbox/orgfiles/screencastnotes.org")
+;; 	 "* %?\n%i\n")))
+
 (use-package ranger)
 (ranger-override-dired-mode t)
 
@@ -198,3 +218,5 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;
 ;;(add-hook 'python-mode-hook ama () (folding-mode)))
 ;; }}} Define evil-mode mappings for vim-style folding
+
+(org-babel-load-file "~/.emacs.d/priv_config.org")

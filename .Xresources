@@ -1,7 +1,9 @@
-URxvt.font: xft:UbuntuMono\ Nerd\ Font\ Mono:bold:size=18
+URxvt.font: xft:UbuntuMono\ Nerd\ Font\ Mono:bold:size=12
 
 urxvt*foreground: #f2f2f2
-urxvt*background: #101010
+! urxvt*background: #101010
+URxvt.background: [95]#292d3e
+
 
 ! Normal
 ! color0    black
@@ -41,7 +43,7 @@ urxvt*color13:    #fba1fb
 urxvt*color14:    #d7d9fc
 urxvt*color15:    #e2e2e2
 ! URxvt.transparent: true
-URxvt.transparent: false
+! URxvt.transparent: true
 
 URxvt.scrollBar: false
 URxvt.scrollBar_right: false
@@ -51,8 +53,15 @@ URxvt.scrollstyle: rxvt
 
 !-*- Perl extensions -*-
 URxvt.perl-lib: /home/jordan/.urxvt/ext/
-URxvt.perl-ext-common: default,selection-to-clipboard,matcher,keyboard-select,tabbedex
+URxvt.perl-ext-common: default,selection-to-clipboard,matcher,keyboard-select,tabbedex,font-size
 ! URxvt.perl-ext: tabbedex
+
+URxvt.keysym.Control-Up:     font-size:increase
+URxvt.keysym.C-Down:   font-size:decrease
+URxvt.keysym.C-S-Up:   font-size:incglobal
+URxvt.keysym.C-S-Down: font-size:decglobal
+URxvt.keysym.C-equal:  font-size:reset
+URxvt.keysym.C-slash:  font-size:show
 
 ! URxvt.tabbed.tabbar-fg: <colour-index, default 3>
 ! URxvt.tabbed.tabbar-bg: <colour-index, default 0>
@@ -106,7 +115,7 @@ URxvt.clipboard.autocopy: true
 ! xterm*font: UbuntuMono Nerd Font-12
 
 xterm*faceName: UbuntuMono Nerd Font
-xterm*faceSize: 14
+xterm*faceSize: 12
 
 
 rofi.color-enabled: true

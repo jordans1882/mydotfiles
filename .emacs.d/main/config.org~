@@ -161,7 +161,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;             (origami-mode)
 ;;             (origami-close-all-nodes (current-buffer))))
 ;; (evil-define-key 'normal prog-mode-map (kbd "TAB") 'nin-origami-toggle-node)
-;; 
+;;
 ;; (define-key evil-normal-state-map "za" 'origami-forward-toggle-node)
 ;; (define-key evil-normal-state-map "zR" 'origami-close-all-nodes)
 ;; (define-key evil-normal-state-map "zM" 'origami-open-all-nodes)
@@ -242,8 +242,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (bind-key "C-c C-c" 'ess-eval-region-or-line-and-step)
 #+END_SRC
 
+** which-key
+#+BEGIN_SRC emacs-lisp
+(require 'which-key)
+#+END_SRC
+
 * Post package load user defined options
-  
+
 ** my-keys-minor-mode
 #+BEGIN_SRC emacs-lisp
 ;; (defvar my-keys-minor-mode-map
@@ -251,12 +256,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;     (define-key map (kbd "C-i") 'some-function)
 ;;     map)
 ;;   "my-keys-minor-mode keymap.")
-;; 
+;;
 ;; (define-minor-mode my-keys-minor-mode
 ;;   "A minor mode so that my key settings override annoying major modes."
 ;;   :init-value t
 ;;   :lighter " my-keys")
-;; 
+;;
 ;; (my-keys-minor-mode 1)
 #+END_SRC
 
@@ -275,7 +280,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;(define-y evil-normal-state-map "zk" 'folding-previous-visible-heading)
 ;;;; (definkey evil-normal-state-map "zf" 'folding-fold-region)
 ;;(define-keevil-normal-state-map "zf"
-;;  '(lambda 
+;;  '(lambda
 ;;     "createold, exit from shifting and add comment to it"
 ;;     (interacve)
 ;;     (folding-ld-region (region-beginning) (region-end))
@@ -305,5 +310,5 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 * Load Private Config
 
 #+BEGIN_SRC emacs-lisp
-(org-babel-load-file "~/.emacs.d/priv_config.org")
+(org-babel-load-file "~/.emacs.d/main/priv_config.org")
 #+END_SRC

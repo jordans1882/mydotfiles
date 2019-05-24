@@ -1,13 +1,13 @@
---[[
+-- {{{ Document Header
+-- Author: Jordan Schupbach
+-- Filename: rc.lua
+-- Purpose:
+-- }}} Document Header
 
-     Awesome WM configuration template
-     github.com/lcpz
-
---]]
-
--- {{{ Required libraries
+-- {{{ Load libraries
 local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
-local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
+local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os
+local table, tostring, tonumber, type
 
 local gears         = require("gears")
 local awful         = require("awful")
@@ -20,7 +20,310 @@ local lain          = require("lain")
 local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 local table_join    = awful.util.table.join or gears.table.join -- 4.{0,1} compatibility
--- }}}
+-- local conky = require("conky")
+
+-- }}} Load libraries
+
+-- {{{ Hotkey help
+
+-- {{{ vim
+local vim_rule_any = {name={"vim", "VIM"}}
+for group_name, group_data in pairs({
+    ["VIM: motion"] =             { color="#009F00", rule_any=vim_rule_any },
+    ["VIM: command"] =            { color="#aFaF00", rule_any=vim_rule_any },
+    ["VIM: command (insert)"] =   { color="#cF4F40", rule_any=vim_rule_any },
+    ["VIM: operator"] =           { color="#aF6F00", rule_any=vim_rule_any },
+    ["VIM: find"] =               { color="#65cF9F", rule_any=vim_rule_any },
+    ["VIM: scroll"] =             { color="#659FdF", rule_any=vim_rule_any },
+}) do
+    hotkeys_popup.add_group_rules(group_name, group_data)
+end
+
+
+local vim_keys = {
+
+    ["VIM: motion"] = {{
+        modifiers = {},
+        keys = {
+            ['`']="goto mark",
+            ['0']='"hard" BOL',
+            ['-']="prev line",
+            w="next word",
+            e="end word",
+            ['[']=". misc",
+            [']']=". misc",
+            ["'"]=". goto mk. BOL",
+            b="prev word",
+            ["|"]='BOL/goto col',
+            ["$"]='EOL',
+            ["%"]='goto matching bracket',
+            ["^"]='"soft" BOL',
+            ["("]='sentence begin',
+            [")"]='sentence end',
+            ["_"]='"soft" BOL down',
+            ["+"]='next line',
+            W='next WORD',
+            E='end WORD',
+            ['{']="paragraph begin",
+            ['}']="paragraph end",
+            G='EOF/goto line',
+            H='move cursor to screen top',
+            M='move cursor to screen middle',
+            L='move cursor to screen bottom',
+            B='prev WORD',
+        }
+    }, {
+        modifiers = {"Ctrl"},
+        keys = {
+            u="half page up",
+            d="half page down",
+            b="page up",
+            f="page down",
+            o="prev mark",
+        }
+    }},
+
+    ["VIM: operator"] = {{
+        modifiers = {},
+        keys = {
+            ['=']="auto format",
+            y="yank",
+            d="delete",
+            c="change",
+            ["!"]='external filter',
+            ['&lt;']='unindent',
+            ['&gt;']='indent',
+        }
+    }},
+
+    ["VIM: command"] = {{
+        modifiers = {},
+        keys = {
+            ['~']="toggle case",
+            q=". record macro",
+            r=". replace char",
+            u="undo",
+            p="paste after",
+            gg="go to the top of file",
+            gf="open file under cursor",
+            x="delete char",
+            v="visual mode",
+            m=". set mark",
+            ['.']="repeat command",
+            ["@"]='. play macro',
+            ["&amp;"]='repeat :s',
+            Q='ex mode',
+            Y='yank line',
+            U='undo line',
+            P='paste before cursor',
+            D='delete to EOL',
+            J='join lines',
+            K='help',
+            [':']='ex cmd line',
+            ['"']='. register spec',
+            ZZ='quit and save',
+            ZQ='quit discarding changes',
+            X='back-delete',
+            V='visual lines selection',
+        }
+    }, {
+        modifiers = {"Ctrl"},
+        keys = {
+            w=". window operations",
+            r="redo",
+            ["["]="normal mode",
+            a="increase number",
+            x="decrease number",
+            g="file/cursor info",
+            z="suspend",
+            c="cancel/normal mode",
+            v="visual block selection",
+        }
+    }},
+
+    ["VIM: command (insert)"] = {{
+        modifiers = {},
+        keys = {
+            i="insert mode",
+            o="open below",
+            a="append",
+            s="subst char",
+            R='replace mode',
+            I='insert at BOL',
+            O='open above',
+            A='append at EOL',
+            S='subst line',
+            C='change to EOL',
+        }
+    }},
+
+    ["VIM: find"] = {{
+        modifiers = {},
+        keys = {
+            [';']="repeat t/T/f/F",
+            [',']="reverse t/T/f/F",
+            ['/']=". find",
+            ['?']='. reverse find',
+            n="next search match",
+            N='prev search match',
+            f=". find char",
+            F='. reverse find char',
+            t=". 'till char",
+            T=". reverse 'till char",
+            ["*"]='find word under cursor',
+            ["#"]='reverse find under cursor',
+        }
+    }},
+
+    ["VIM: scroll"] = {{
+        modifiers = {},
+        keys = {
+            zt="scroll cursor to the top",
+            zz="scroll cursor to the center",
+            zb="scroll cursor to the bottom",
+        }
+    },{
+        modifiers = {"Ctrl"},
+        keys = {
+            e="scroll line up",
+            y="scroll line down",
+        }
+    }},
+}
+
+hotkeys_popup.add_hotkeys(vim_keys)
+
+-- }}} vim
+
+-- {{{ tmux
+
+local tmux = {}
+
+function tmux.add_rules_for_terminal(rule)
+    for group_name, group_data in pairs({
+        ["tmux: sessions"] = rule,
+        ["tmux: windows"]  = rule,
+        ["tmux: panes"]    = rule,
+        ["tmux: misc"]     = rule,
+    }) do
+        hotkeys_popup.add_group_rules(group_name, group_data)
+    end
+end
+
+local tmux_keys = {
+    ["tmux: sessions"] = {{
+        modifiers = {},
+        keys = {
+            s     = "show all sessions",
+            ['$'] = "rename the current session",
+            ['('] = "move to previous session",
+            [')'] = "move to next session",
+            d     = "detach from current session"
+        }
+    }},
+
+    ["tmux: windows"] = {{
+        modifiers = {},
+        keys = {
+            c         = "create window",
+            f         = "find window",
+            [',']     = "rename current window",
+            --['&']     = "close current window",
+            p         = "previous window",
+            n         = "next window",
+            ['0...9'] = "select window by number"
+        }
+    }},
+
+    ["tmux: panes"] = {{
+        modifiers = {},
+        keys = {
+            [';']       = "toggle last active pane",
+            ['%']       = "split pane vertically",
+            ['"']       = "split pane horizontally",
+            ['{']       = "move the current pane left",
+            ['}']       = "move the current pane right",
+            ['q 0...9'] = "select pane by number",
+            o           = "toggle between panes",
+            z           = "toggle pane zoom",
+            ['space']   = "toggle between layouts",
+            ['!']       = "convert pane into a window",
+            x           = "close current pane"
+        }
+    }},
+
+    ["tmux: misc"] = {{
+        modifiers = {},
+        keys = {
+            [':'] = "enter command mode",
+            ['?'] = "list shortcuts",
+            t     = "show clock"
+        }
+    }}
+}
+hotkeys_popup.add_hotkeys(tmux_keys)
+
+-- }}} tmux
+
+-- {{{ Tabbed
+local tabbed = {}
+
+function tabbed.add_rules_for_terminal(rule)
+    for group_name, group_data in pairs({
+        ["tabbed: general"] = rule
+    }) do
+        hotkeys_popup.add_group_rules(group_name, group_data)
+    end
+end
+
+local tabbed_keys = {
+    ["tabbed: general"] = {{
+        modifiers = {},
+        keys = {
+            t     = "show clock"
+        }
+    }}
+}
+
+hotkeys_popup.add_hotkeys(tabbed_keys)
+
+-- TODO: Add the following help
+
+--       Ctrl-Shift-Return
+--              open new tab
+--
+--       Ctrl-Shift-h
+--              previous tab
+--
+--       Ctrl-Shift-l
+--              next tab
+--
+--       Ctrl-Shift-j
+--              move selected tab one to the left
+--
+--       Ctrl-Shift-k
+--              move selected tab one to the right
+--
+--       Ctrl-Shift-u
+--              toggle autofocus of urgent tabs
+--
+--       Ctrl-Tab
+--              toggle between the selected and last selected tab
+--
+--       Ctrl-` open dmenu to either create a new tab appending the entered string or select an already existing tab.
+--
+--       Ctrl-q close tab
+--
+--       Ctrl-u focus next urgent tab
+--
+--       Ctrl-[0..9]
+--              jumps to nth tab
+--
+--       F11    Toggle fullscreen mode.
+--
+-- }}} Tabbed
+
+-- }}} Hotkey help
 
 -- {{{ Error handling
 if awesome.startup_errors then
@@ -80,25 +383,26 @@ local altkey       = "Mod1"
 local terminal     = "urxvt"
 local editor       = os.getenv("EDITOR") or "nvim"
 local gui_editor   = "gvim"
-local browser      = "chromium"
+-- local browser      = "tabbed -c vimb -e"
+local browser      = "luakit"
 local guieditor    = "atom"
 local scrlocker    = "xlock"
 
 awful.util.terminal = terminal
-awful.util.tagnames = {"1 ", "2", "3", "4", "5", "6", "7", "8", "9"}
+awful.util.tagnames = {"", "", "", "", "", "", "7", "8", "9"}
 awful.layout.layouts = {
     awful.layout.suit.floating,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
-    --awful.layout.suit.fair,
-    --awful.layout.suit.fair.horizontal,
+    awful.layout.suit.fair,
+    awful.layout.suit.fair.horizontal,
     --awful.layout.suit.spiral,
     --awful.layout.suit.spiral.dwindle,
-    --awful.layout.suit.max,
-    --awful.layout.suit.max.fullscreen,
-    --awful.layout.suit.magnifier,
+    awful.layout.suit.max,
+    awful.layout.suit.max.fullscreen,
+    awful.layout.suit.magnifier,
     --awful.layout.suit.corner.nw,
     --awful.layout.suit.corner.ne,
     --awful.layout.suit.corner.sw,
@@ -226,9 +530,12 @@ root.buttons(table_join(
 -- {{{ Key bindings
 globalkeys = table_join(
 
+    --awful.key({ modkey , altkey}, "k", function() conky.show_key("F12") end,
+              --{description = "Show Conky", group = "hotkeys"}),
     -- User Keybinds
-
-    awful.key({ modkey }, "p", function() awful.util.spawn("pavucontrol") end,
+    awful.key({ modkey }, "p", function() awful.util.spawn("tabbed -c zathura -e") end,
+              {description = "pdf viewer (zathura)", group = "hotkeys"}),
+    awful.key({ modkey }, "x", function() awful.util.spawn("xscreensaver-command -lock") end,
               {description = "pavucontrol", group = "hotkeys"}),
 
     awful.key({ modkey }, "e", function() awful.util.spawn("thunar") end,
@@ -239,7 +546,7 @@ globalkeys = table_join(
               {description = "take a screenshot", group = "hotkeys"}),
 
     -- X screen locker
-    awful.key({ altkey, "Control" }, "l", function () os.execute(scrlocker) end,
+    awful.key({ altkey, "Control" }, "l", function () os.execute("xscreensaver-command -lock") end,
               {description = "lock screen", group = "hotkeys"}),
 
     -- Hotkeys
@@ -813,10 +1120,14 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- }}} Random backgrounds
 
--- Autostart application and processes
+-- {{{ Autostart application and processes
+
 awful.util.spawn_with_shell("~/.config/awesome/autostart.sh") -- Shell transperancy
-awful.util.spawn_with_shell("xcompmgr")
+-- awful.util.spawn_with_shell("xcompmgr")
+awful.util.spawn_with_shell("compton")
 awful.util.spawn_with_shell("nm-applet")
+awful.util.spawn_with_shell("dropbox")
+--awful.util.spawn_with_shell("urxvt -e vit")
 -- -- Autorun programs
 -- autorun = true
 -- autorunApps =
@@ -833,4 +1144,8 @@ awful.util.spawn_with_shell("nm-applet")
 --    end
 -- end
 --
---
+-- }}} Autostart application and processes
+
+-- {{{ vim modeline
+-- vim: set foldmethod=marker ts=8 sw=3 tw=80 et :
+-- }}} vim modeline

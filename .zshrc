@@ -4,6 +4,11 @@
 # Purpose: September 1, 2018
 # }}} Header
 
+
+# {{{ ENV
+HISTFILE=$HOME/.zsh_history
+APPEND_HISTORY=TRUE
+# }}} ENV
 # {{{ Load zplug
 ZPLUG_HOME=$HOME/git_repos/zplug
 source $ZPLUG_HOME/init.zsh
@@ -101,7 +106,7 @@ source $ZPLUG_HOME/init.zsh
 zplug "plugins/archlinux",   from:oh-my-zsh #Only need on archlinux machines
 zplug "plugins/colored-man-pages",   from:oh-my-zsh
 zplug "plugins/colorize",   from:oh-my-zsh
-zplug "plugins/dirhistory",   from:oh-my-zsh
+#zplug "plugins/dirhistory",   from:oh-my-zsh
 zplug "plugins/extract",   from:oh-my-zsh
 zplug "plugins/git",   from:oh-my-zsh
 zplug "plugins/pip",   from:oh-my-zsh
@@ -124,8 +129,12 @@ zplug "zsh-users/fizsh"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zsh-completions"
-zplug "zsh-users/zsh-history-substring-search"
+# zplug "zsh-users/zsh-history-substring-search"
 zplug "zsh-users/zaw"
+#zplug "vifon/deer"
+#zplug "vifon/deer", use:deer
+zplug "urbainvaes/fzf-marks"
+zplug "changyuheng/zsh-interactive-cd"
 
 # }}} zplug plugins
 # {{{ theme
@@ -158,6 +167,10 @@ export USE_NERD_FONT=1
 # }}} theme settings
 # {{{ plugin settings
 
+# {{{ deer
+zle -N deer
+#bindkey '\ek' deer
+# }}} deer
 # {{{ zce
 # source ZPLUG_HOME/
 bindkey "^Xz" zce
@@ -199,12 +212,65 @@ alias man='man -P vimpager'
 source ~/tmuxinator.zsh
 # source ~/.shell_prompt.sh
 # }}} Imports
+# {{{ path
+PATH=$PATH:/home/jordan/.local/bin
+PATH=$PATH:/home/jordan/.scripts
+PATH=$PATH:/home/jordan/.gem/ruby/2.6.0/bin
+QUBBD_DATA_PATH=/home/jordan/work/gleason/data/
+# }}} path
 # {{{ fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 fzf_history() { zle -I; eval $(history | fzf +s | sed 's/ *[0-9]* *//') ; }; zle -N fzf_history; bindkey '^F' fzf_history
 
-fzf_cd() { zle -I; DIR=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf) && cd "$DIR" ; }; zle -N fzf_cd; bindkey '^E' fzf_cd
+fzf_cd() { zle -I; DIR=$(find . -type d -print 2> /dev/null | fzf) && cd "$DIR" ; }; zle -N fzf_cd; bindkey '^E' fzf_cd
+
+function cd() {
+    if [[ "$#" != 0 ]]; then
+        builtin cd "$@";
+        return
+    fi
+    while true; do
+        local lsd=$(echo ".." && ls -p | grep '/$' | sed 's;/$;;')
+        local dir="$(printf '%s\n' "${lsd[@]}" |
+            fzf --reverse --preview '
+                __cd_nxt="$(echo {})";
+                __cd_path="$(echo $(pwd)/${__cd_nxt} | sed "s;//;/;")";
+                echo $__cd_path;
+                echo;
+                ls -p --color=always "${__cd_path}";
+        ')"
+        [[ ${#dir} != 0 ]] || return 0
+        builtin cd "$dir" &> /dev/null
+    done
+}
+
+# fuzzy grep open via ag with line number
+vg() {
+  local file
+  local line
+
+  read -r file line <<<"$(ag --nobreak --noheading $@ | fzf -0 -1 | awk -F: '{print $1, $2}')"
+
+  if [[ -n $file ]]
+  then
+     vim $file +$line
+  fi
+}
+
+fd() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
+                  -o -type d -print 2> /dev/null | fzf +m) &&
+  cd "$dir"
+}
+
+# fh - repeat history
+fh() {
+  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
+}
+
+source $HOME/git_repos/zsh-interactive-cd/zsh-interactive-cd.plugin.zsh
 
 # }}} fzf
 # {{{ config file aliases
@@ -223,15 +289,26 @@ alias priv_config='/usr/bin/git --git-dir=$HOME/git_repos/private_dots --work-tr
 # }}} config file aliases
 # {{{ program aliases
 alias c="cmus"
-alias e="emacs --no-window-system"
+alias ve="emacs --no-window-system -q -l ~/.emacs.d/vanilla/init.el"
+alias e="emacs --no-window-system -q -l ~/.emacs.d/main/init.el"
+alias emacs='emacs -q -l ~/.emacs.d/main/init.el'
+alias spacemacs='emacs -q -l ~/.emacs.d/spacemacs/init.el'
 alias ipy="ipython"
+alias ls="lsd" # or use ls --color
 alias m="mutt"
 alias n="nvim"
 alias o="okular"
 alias r="ranger"
 alias t="tmux"
-alias v="vim"
+alias v="vim --cmd 'let g:elite_mode=1'"
+alias vv="vim --cmd 'let g:Vanilla=1'"
+alias vd="vim --cmd 'let g:DefaultVim=1'"
+alias q="exit"
+alias z="zathura"
 #  }}} program aliases
+#  {{{ Utility Aliases
+alias cl="clear; ls"
+#  }}} Utility Aliases
 # {{{ Connection aliases
 alias do_ssh="ssh -Y root@142.93.118.208"
 # }}} Connection aliases
@@ -241,7 +318,7 @@ source $PRIVATE_CONFIG_DIR/priv_zsh.sh
 fi
 # }}} Load private zsh script
 # {{{ User Defined Functions and bindings
-cdl() { cd "$@" && ls; }
+cdl() { cd "$@" && clear && ls; }
 
 up-a-directory() {
   emulate -L zsh
@@ -259,30 +336,61 @@ zle -N up-a-directory
 
 bindkey '^k' up-a-directory
 
+shdl() { curl -O $(curl -s http://sci-hub.tw/"$@" | grep location.href | sed -n "s/.*\(http.*pdf\).*/\1/p") ;}
+
+se() { du -a ~/.scripts/* ~/.config/* | awk '{print $2}' | fzf | xargs  -r $EDITOR ;}
+sp() { du -a ~/papers/* | awk '{print $2}' | fzf | xargs  -r zathura ;}
+# sv() { vcopy "$(du -a ~/.scripts/* ~/.config/* | awk '{print $2}' | fzf)" ;}
+vf() { fzf | xargs -r -I % $EDITOR % ;}
+
+
 # }}} User Defined Functions and bindings
-# {{{ Path variables
-
-
-# export LD_LIBRARY_PATH=/usr/local/cuda-9.1/lib64\
-#                          ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-# export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/extras/CUPTI/lib64
-LD_LIBRARY_PATH=/usr/local/pgsql/lib:$LD_LIBRARY_PATH
-
-export LD_LIBRARY_PATH
-
-export PATH=/usr/local/cuda-9.1/bin${PATH:+:${PATH}}
-PATH=/usr/local/pgsql/bin:$PATH
-PATH=/home/jordan/git_repos/dipha/build:$PATH
-PATH=/home/jordan/.gem/ruby/2.5.0/bin:$PATH
-# PATH=/home/jordan/go/bin:$PATH
-export PATH
-
-# }}} Path variables
 # {{{ Startup commands
-archey4
-figlet -d ~/git_repos/figlet-fonts.git/tlf-contrib -f 'rebel' $HOST | lolcat
+#archey
+#figlet -d ~/git_repos/figlet-fonts/tlf-contrib -f 'rebel' $HOST | lolcat
 # fortune | ponysay
 # }}} Startup commands
+
+# unregister broken GHC packages. Run this a few times to resolve dependency rot in installed packages.
+# ghc-pkg-clean -f cabal/dev/packages*.conf also works.
+function ghc-pkg-clean() {
+  for p in `ghc-pkg check $* 2>&1  | grep problems | awk '{print $6}' | sed -e 's/:$//'`
+  do
+    echo unregistering $p; ghc-pkg $* unregister $p
+  done
+}
+
+# remove all installed GHC/cabal packages, leaving ~/.cabal binaries and docs in place.
+# When all else fails, use this to get out of dependency hell and start over.
+function ghc-pkg-reset() {
+  if [[ $(readlink -f /proc/$$/exe) =~ zsh ]]; then
+    read 'ans?Erasing all your user ghc and cabal packages - are you sure (y/N)? '
+  else # assume bash/bash compatible otherwise
+    read -p 'Erasing all your user ghc and cabal packages - are you sure (y/N)? ' ans
+  fi
+
+  [[ x$ans =~ "xy" ]] && ( \
+    echo 'erasing directories under ~/.ghc'; command rm -rf `find ~/.ghc/* -maxdepth 1 -type d`; \
+    echo 'erasing ~/.cabal/lib'; command rm -rf ~/.cabal/lib; \
+  )
+}
+
+alias cabalupgrades="cabal list --installed  | egrep -iv '(synopsis|homepage|license)'"
+
+
+PATH=$PATH:~/.cabal/bin
+
+# {{{ ENV
+HISTFILE=$HOME/.zsh_history
+APPEND_HISTORY=TRUE
+SAVEHIST=20
+HISTSIZE=200
+# }}} ENV
+
+setopt append_history # append rather then overwrite
+setopt extended_history # save timestamp
+setopt inc_append_history # add history immediately after typing a command
+
 # {{{ vim modelines
 # vim: set foldmethod=marker:
 # }}} vim modelines

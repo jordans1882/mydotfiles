@@ -4,3 +4,6 @@
 [submodule "/home/jordan/.tmux/plugins/tpm"]
 	path = /home/jordan/.tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
+[submodule "/home/jordan/.config/nvim"]
+	path = /home/jordan/.config/nvim
+	url = git@github.com:jordans1882/vim-cfg.git

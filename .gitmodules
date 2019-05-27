@@ -1,9 +1,12 @@
 [submodule "git_repos/zplug"]
 	path = git_repos/zplug
 	url = https://github.com/zplug/zplug.git
-[submodule "/home/jordan/.tmux/plugins/tpm"]
-	path = /home/jordan/.tmux/plugins/tpm
+[submodule ".emacs.d/spacemacs"]
+	path = .emacs.d/spacemacs
+	url = https://github.com/syl20bnr/spacemacs
+[submodule ".config/nvim"]
+	path = .config/nvim
+	url = https://github.com/jordans1882/vim-cfg
+[submodule ".tmux/plugins/tpm"]
+	path = .tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
-[submodule "/home/jordan/.config/nvim"]
-	path = /home/jordan/.config/nvim
-	url = git@github.com:jordans1882/vim-cfg.git

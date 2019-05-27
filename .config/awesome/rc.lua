@@ -1122,7 +1122,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 -- {{{ Autostart application and processes
 
-awful.util.spawn_with_shell("~/.config/awesome/autostart.sh") -- Shell transperancy
+-- awful.util.spawn_with_shell("~/.config/awesome/autostart.sh") -- Shell transperancy
 -- awful.util.spawn_with_shell("xcompmgr")
 awful.util.spawn_with_shell("compton")
 awful.util.spawn_with_shell("nm-applet")

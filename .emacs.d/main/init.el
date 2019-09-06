@@ -7,7 +7,9 @@
 (require 'package)
 (mapc (lambda(p) (push p package-archives))
       '(("melpa" . "http://melpa.milkbox.net/packages/")
-	("org" . "https://orgmode.org/elpa/")))
+	("org" . "https://orgmode.org/elpa/")
+	("gnu" . "http://elpa.gnu.org/packages/")))
+
 
 ;; ("marmalade" . "http://marmalade-repo.org/packages/") ;; In case you want to check out marmalade packages
 
@@ -38,3 +40,4 @@
 
 (use-package org)
 (org-babel-load-file "~/.emacs.d/main/config.org")
+;; (org-babel-load-file "~/.emacs.d/main/priv_config.org")

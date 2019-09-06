@@ -26,11 +26,11 @@
 
 (global-set-key (kbd "M-p") 'ace-window)
 
-(load-theme 'atom-one-dark t)
+;; (load-theme 'atom-one-dark t)
 
 (use-package airline-themes)
-(load-theme 'airline-dark t)
-(load-theme 'airline-one-dark t)
+;;(load-theme 'airline-dark t)
+;; (load-theme 'airline-one-dark t)
 
 (use-package auto-complete)
 
@@ -43,8 +43,13 @@
 (elfeed-goodies/setup)
 
 (use-package ess)
+;; (use-package 'ess-site)
+;; (use-package 'ess-smart-underscore)
 
-(setq evil-want-integration nil)
+;;(global-set-key (kbd "C-c <C-return>") 'ess-eval-region-or-line-and-step)
+
+;; (setq evil-want-integration nil)
+(setq evil-want-integration t)
 (use-package evil)
 (evil-mode 1)
 
@@ -73,6 +78,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;;(global-evil-tabs-mode t)
 
+(use-package evil-collection)
+(evil-collection-init)
+
 ;; (setq folding-default-keys-function
 ;;      'folding-bind-backward-compatible-keys)
 
@@ -82,6 +90,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package evil-collection)
 (when (require `evil-collection nil t)
   (evil-collection-init))
+
+(use-package haskell-mode)
+;;(haskell-program-name ghci)
+
+;; (use-package flymake)
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
 
 (use-package flycheck)
 (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -144,7 +158,21 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;      (goto-char start)
 ;;      ))
 
+(setq org-latex-pdf-process
+      '("pdflatex -interaction nonstopmode -output-directory %o %f"
+	"bibtex %b"
+	"pdflatex -interaction nonstopmode -output-directory %o %f"
+	"pdflatex -interaction nonstopmode -output-directory %o %f"))
+
 (setq org-agenda-files (list "~/schedule.org"))
+
+(org-babel-do-load-languages
+  'org-babel-load-languages
+  '((python . t)
+    (shell . t)
+    (haskell . t)
+    (octave . t)
+    (R . t)))
 
 ;; (require 'org-gcal)
 
@@ -164,6 +192,22 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; 	("s" "Screencast" entry (file "~/Dropbox/orgfiles/screencastnotes.org")
 ;; 	 "* %?\n%i\n")))
 
+(require 'org-ref)
+;; org-ref-bibliography-notes "~/Dropbox/bibliography/notes.org"
+;; org-ref-pdf-directory "~/Dropbox/bibliography/bibtex-pdfs/")
+(setq org-ref-default-bibliography '("~/bibtex/my_library.bib"))
+
+(use-package powerline)
+(powerline-default-theme)
+;;(powerline-center-evil-theme)
+
+(use-package projectile)
+(projectile-mode 1)
+
+(use-package pyvenv)
+(setenv "WORKON_HOME" "/home/jordan/.conda/envs")
+(pyvenv-mode 1)
+
 (use-package ranger)
 (ranger-override-dired-mode t)
 
@@ -172,6 +216,36 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (require 'which-key)
 (which-key-mode)
+
+(set-default-font "UbuntuMono Nerd Font Mono-24")
+(set-face-attribute 'default nil :font "UbuntuMono Nerd Font Mono-24" )
+(set-frame-font "UbuntuMono Nerd Font Mono-24" nil t)
+
+
+;; User defined keybindings:
+
+;; Buffer Keybindings:
+;; (global-set-key (kbd "; b l") 'next buffer)
+
+(defvar my-leader-map (make-sparse-keymap)
+  "Keymap for \"leader key\" shortcuts.")
+
+;; binding "," to the keymap
+(define-key evil-normal-state-map "," my-leader-map)
+
+;; binding ",b"
+(define-key my-leader-map "bf" 'helm-buffers-list)
+(define-key my-leader-map "bn" 'next-buffer)
+(define-key my-leader-map "bb" 'previous-buffer)
+(define-key my-leader-map "wh" 'evil-window-previous)
+(define-key my-leader-map "wl" 'evil-window-next)
+(define-key my-leader-map "wj" 'evil-window-down)
+(define-key my-leader-map "wk" 'evil-window-up)
+
+
+;; q for quit... :)
+(define-key evil-normal-state-map (kbd "Q") 'evil-record-macro)
+(define-key evil-normal-state-map (kbd "q") 'save-buffers-kill-terminal)
 
 ;; (defvar my-keys-minor-mode-map
 ;;   (let ((map (make-sparse-keymap)))
@@ -222,4 +296,4 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;(add-hook 'python-mode-hook ama () (folding-mode)))
 ;; }}} Define evil-mode mappings for vim-style folding
 
-(org-babel-load-file "~/.emacs.d/main/priv_config.org")
+;;  (org-babel-load-file "~/.emacs.d/main/priv_config.org")

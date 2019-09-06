@@ -1,0 +1,128 @@
+tox
+tox
+Welcome to the Emacs shell
+tox
+_____________________________________________________ summary ______________________________________________________
+tox
+tox
+tox
+tox
+tox
+tox
+tox
+tox
+tox
+to
+tox
+tox
+tox
+src/data/make_dataset_test.py ..                                                                             [100%]
+conda install pandas
+tox
+tox
+pip install Sphinx
+sudo pip install Sphinx
+tox
+ls
+rm -r __pycache__/ _build/ _static/ _templates/ example_pkg_your_username.egg-info/ make.bat 
+ls
+tox
+ls
+cd docs/
+ls
+cd ..
+v index.rst 
+vim index.rst 
+ls
+tox
+tox
+ls
+rm __pycache__/ example_pkg_your_username.egg-info/ index.rst 
+ls
+tox
+tox
+ls
+mv src-old/ src
+tox
+ls
+tox
+ls
+cd docs/
+ls
+cd ..
+ls
+sphinx-build
+sphinx-build src/ docs/
+sphinx-build ./
+sphinx-quickstart
+ls
+cd docs/
+ls
+v index.rst 
+rm -r ./*
+ls
+cd ..
+ls
+sphinx-build
+ls
+ls
+cd doc_test/
+ls
+ls -a
+sphinx-autogen
+sphinx-build
+sphinx-build -d 
+ls
+cd ..
+ls
+v conf.py 
+ls
+sphinx-build html src/ docs/
+q
+exit
+cd ..
+pip install -e .
+pip install -e .
+tox
+tox
+tox
+ls
+mkdir tests
+mv src/data/make_dataset_test.py ./tests/
+tox
+ls
+mv tests/ ~/
+tox
+pip install -e .
+ls
+v setup.cfg
+pip install -e .
+tox
+pip install -e .
+pip install -e .
+ls
+v requirements.txt
+make requirements 
+pip instal distutils
+pip install distutils
+pip install -e .
+ls
+rm -r __pycache__/
+pip install -e .
+v setup.cfg
+pip install -e .
+pip uninstall cnn-ensemble
+pip install -e .
+pip install -e .
+pip install -e .
+pip install -e .
+cd ..
+ls
+mv cnn-ensemble/ cnn_ensemble
+cd cnn_ensemble/
+ls
+pip install -e .
+ls
+v tox.ini 
+ls
+ls -la

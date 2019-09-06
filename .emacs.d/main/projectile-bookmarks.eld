@@ -1,0 +1,1 @@
+("~/" "~/school/comptag/" "~/Dropbox/js_dissertation_research/" "~/work/gleason/")

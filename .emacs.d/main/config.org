@@ -42,13 +42,13 @@
 #+END_SRC
 ** atom-one-dark
 #+BEGIN_SRC emacs-lisp
-(load-theme 'atom-one-dark t)
+;; (load-theme 'atom-one-dark t)
 #+END_SRC
 ** airline-themes
 #+BEGIN_SRC emacs-lisp
 (use-package airline-themes)
-(load-theme 'airline-dark t)
-(load-theme 'airline-one-dark t)
+;;(load-theme 'airline-dark t)
+;; (load-theme 'airline-one-dark t)
 #+END_SRC
 ** auto-complete
 #+BEGIN_SRC emacs-lisp
@@ -65,20 +65,22 @@
 (elfeed-goodies/setup)
 #+END_SRC
 ** ess
-*** Load Package
+*** General Settings
 #+BEGIN_SRC emacs-lisp
 (use-package ess)
+;; (use-package 'ess-site)
+;; (use-package 'ess-smart-underscore)
 #+END_SRC
 *** Keybindings
-(global-set-key (kbd "C-c <C-return>") 'ess-eval-region-or-line-and-step)
-
-
-;; (eval-after-load `ess-help-mode '(define-key ess-help-mode-map (kbd "j") 'next-line)
+#+BEGIN_SRC emacs-lisp
+;;(global-set-key (kbd "C-c <C-return>") 'ess-eval-region-or-line-and-step)
+#+END_SRC
 
 ** evil
 *** Load emacs
 #+BEGIN_SRC emacs-lisp
-(setq evil-want-integration nil)
+;; (setq evil-want-integration nil)
+(setq evil-want-integration t)
 (use-package evil)
 (evil-mode 1)
 #+END_SRC
@@ -122,6 +124,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 #+BEGIN_SRC emacs-lisp
 ;;(global-evil-tabs-mode t)
 #+END_SRC
+** evil-collection
+#+BEGIN_SRC emacs-lisp
+(use-package evil-collection)
+(evil-collection-init)
+#+END_SRC
 ** folding
 #+BEGIN_SRC emacs-lisp
 ;; (setq folding-default-keys-function
@@ -135,6 +142,19 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package evil-collection)
 (when (require `evil-collection nil t)
   (evil-collection-init))
+#+END_SRC
+
+** haskell-mode
+#+BEGIN_SRC emacs-lisp
+(use-package haskell-mode)
+;;(haskell-program-name ghci)
+
+#+END_SRC
+
+** flymake
+#+BEGIN_SRC emacs-lisp
+;; (use-package flymake)
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
 #+END_SRC
 ** flycheck
 #+BEGIN_SRC emacs-lisp
@@ -201,10 +221,35 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;      (goto-char start)
 ;;      ))
 #+END_SRC
+
+** org-mode
+#+BEGIN_SRC emacs-lisp
+
+(setq org-latex-pdf-process
+      '("pdflatex -interaction nonstopmode -output-directory %o %f"
+	"bibtex %b"
+	"pdflatex -interaction nonstopmode -output-directory %o %f"
+	"pdflatex -interaction nonstopmode -output-directory %o %f"))
+
+#+END_SRC
+
+
 ** org-agenda
 #+BEGIN_SRC emacs-lisp
 (setq org-agenda-files (list "~/schedule.org"))
 #+END_SRC
+
+** org-babel
+#+BEGIN_SRC emacs-lisp
+(org-babel-do-load-languages
+  'org-babel-load-languages
+  '((python . t)
+    (shell . t)
+    (haskell . t)
+    (octave . t)
+    (R . t)))
+#+END_SRC
+
 
 ** org-gcal
 #+BEGIN_SRC emacs-lisp
@@ -229,6 +274,33 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; 	 "* %?\n%i\n")))
 #+END_SRC
 
+** org-ref
+#+BEGIN_SRC emacs-lisp
+(require 'org-ref)
+;; org-ref-bibliography-notes "~/Dropbox/bibliography/notes.org"
+;; org-ref-pdf-directory "~/Dropbox/bibliography/bibtex-pdfs/")
+(setq org-ref-default-bibliography '("~/bibtex/my_library.bib"))
+
+#+END_SRC
+** powerline
+#+BEGIN_SRC emacs-lisp
+(use-package powerline)
+(powerline-default-theme)
+;;(powerline-center-evil-theme)
+
+#+END_SRC
+** projectile
+#+BEGIN_SRC emacs-lisp
+(use-package projectile)
+(projectile-mode 1)
+#+END_SRC
+
+** pyvenv
+#+BEGIN_SRC emacs-lisp
+(use-package pyvenv)
+(setenv "WORKON_HOME" "/home/jordan/.conda/envs")
+(pyvenv-mode 1)
+#+END_SRC
 
 ** ranger
 #+BEGIN_SRC emacs-lisp
@@ -250,6 +322,43 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 #+END_SRC
 
 * Post package load user defined options
+
+** User defined keybindings
+#+BEGIN_SRC emacs-lisp
+
+(set-default-font "UbuntuMono Nerd Font Mono-24")
+(set-face-attribute 'default nil :font "UbuntuMono Nerd Font Mono-24" )
+(set-frame-font "UbuntuMono Nerd Font Mono-24" nil t)
+
+
+;; User defined keybindings:
+
+;; Buffer Keybindings:
+;; (global-set-key (kbd "; b l") 'next buffer)
+
+(defvar my-leader-map (make-sparse-keymap)
+  "Keymap for \"leader key\" shortcuts.")
+
+;; binding "," to the keymap
+(define-key evil-normal-state-map "," my-leader-map)
+
+;; binding ",b"
+(define-key my-leader-map "bf" 'helm-buffers-list)
+(define-key my-leader-map "bn" 'next-buffer)
+(define-key my-leader-map "bb" 'previous-buffer)
+(define-key my-leader-map "wh" 'evil-window-previous)
+(define-key my-leader-map "wl" 'evil-window-next)
+(define-key my-leader-map "wj" 'evil-window-down)
+(define-key my-leader-map "wk" 'evil-window-up)
+
+
+;; q for quit... :)
+(define-key evil-normal-state-map (kbd "Q") 'evil-record-macro)
+(define-key evil-normal-state-map (kbd "q") 'save-buffers-kill-terminal)
+
+#+END_SRC
+
+
 
 ** my-keys-minor-mode
 #+BEGIN_SRC emacs-lisp
@@ -312,5 +421,5 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 * Load Private Config
 
 #+BEGIN_SRC emacs-lisp
-(org-babel-load-file "~/.emacs.d/main/priv_config.org")
+;;  (org-babel-load-file "~/.emacs.d/main/priv_config.org")
 #+END_SRC

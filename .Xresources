@@ -1,9 +1,15 @@
-URxvt.font: xft:UbuntuMono\ Nerd\ Font\ Mono:bold:size=12
+#include ".Xresources.d/colors"
+! {{{ File Header
+! Author: Jordan Schupbach
+! Filename: .Xresources
+! Purpose: Settings for Xorg
+! }}} File Header
+! {{{ urxvt settings
+urxvt.font: xft:UbuntuMono\ Nerd\ Font\ Mono:bold:size=12
 
 urxvt*foreground: #f2f2f2
 ! urxvt*background: #101010
 URxvt.background: [95]#292d3e
-
 
 ! Normal
 ! color0    black
@@ -15,41 +21,39 @@ URxvt.background: [95]#292d3e
 ! color6    cyan
 ! color7    white
 
-urxvt*color0:    #6c6c6c
-urxvt*color1:    #e9897c
-urxvt*color2:    #b6e77d
-urxvt*color3:    #ecebbe
-urxvt*color4:    #a9cdeb
-urxvt*color5:    #ea96eb
-urxvt*color6:    #c9caec
-urxvt*color7:    #f2f2f2
-
-! Light
-! color8    black
-! color9    red
-! color10    green
-! color11    yellow
-! color12    blue
-! color13    purple
-! color14    cyan
-! color15    white
-
-urxvt*color8:    #747474
-urxvt*color9:    #f99286
-urxvt*color10:    #c3f786
-urxvt*color11:    #fcfbcc
-urxvt*color12:    #b6defb
-urxvt*color13:    #fba1fb
-urxvt*color14:    #d7d9fc
-urxvt*color15:    #e2e2e2
-! URxvt.transparent: true
-! URxvt.transparent: true
+! urxvt*color0:    #6c6c6c
+! urxvt*color1:    #e9897c
+! urxvt*color2:    #b6e77d
+! urxvt*color3:    #ecebbe
+! urxvt*color4:    #a9cdeb
+! urxvt*color5:    #ea96eb
+! urxvt*color6:    #c9caec
+! urxvt*color7:    #f2f2f2
+!
+! ! Light
+! ! color8    black
+! ! color9    red
+! ! color10    green
+! ! color11    yellow
+! ! color12    blue
+! ! color13    purple
+! ! color14    cyan
+! ! color15    white
+!
+! urxvt*color8:    #747474
+! urxvt*color9:    #f99286
+! urxvt*color10:    #c3f786
+! urxvt*color11:    #fcfbcc
+! urxvt*color12:    #b6defb
+! urxvt*color13:    #fba1fb
+! urxvt*color14:    #d7d9fc
+! urxvt*color15:    #e2e2e2
+! ! URxvt.transparent: true
 
 URxvt.scrollBar: false
 URxvt.scrollBar_right: false
 URxvt.scrollBar_floating: false
 URxvt.scrollstyle: rxvt
-
 
 !-*- Perl extensions -*-
 URxvt.perl-lib: /home/jordan/.urxvt/ext/
@@ -98,7 +102,6 @@ URxvt.tabbedex.tabbar-bg: 0
 ! URxvt.tabbedex.tab-fg: 0
 ! URxvt.tabbedex.tab-bg: 2
 
-
 URxvt.keysym.M-u:     perl:url-select:select_next
 URxvt.url-launcher:   /usr/bin/firefox
 URxvt.underlineURLs:  True
@@ -111,18 +114,49 @@ URxvt.clipboard.autocopy: true
 ! ! Resize on the fly
 ! urxvt.perl-ext-common: default,tabbed,matcher,resize-font,-tabbed
 
+! }}} urxvt settings
+! {{{ XTerm settings
 
 ! xterm*font: UbuntuMono Nerd Font-12
 
-xterm*faceName: UbuntuMono Nerd Font
-xterm*faceSize: 12
+XTerm.termName: xterm-256color
+XTerm.vt100.locale: true
 
+XTerm.vt100.translations: #override \n\
+    Ctrl <Key>M: maximize() \n\
+    Ctrl <Key>R: restore()
 
+XTerm.vt100.saveLines: 4096
+
+!XTerm.vt100.foreground: white
+!XTerm.vt100.background: black
+!XTerm.vt100.faceName: Hack Nerd Font Mono
+!XTerm.vt100.faceSize: 16
+!XTerm.vt100.font: 7x13
+!XTerm.vt100.renderFont: true
+
+xterm*faceName: ttf:Hack Nerd Font Mono
+xterm*faceSize: 16
+xterm*font: fixed
+xterm*utf8: 2
+xterm*locale: true
+
+! }}} XTerm settings
+! {{{ rofi settings
 rofi.color-enabled: true
 rofi.color-window: #393939, #393939, #268bd2
 rofi.color-normal: #393939, #ffffff, #393939, #268bd2, #ffffff
 rofi.color-active: #393939, #268bd2, #393939, #268bd2, #205171
 rofi.color-urgent: #393939, #f3843d, #393939, #268bd2, #ffc39c
 
+! }}} rofi settings
 
+! {{{ Emacs Settings
+Emacs.font: UbuntuMono Nerd Font Mono-9
+! Emacs.font: xft:UbuntuMono\ Nerd\ Font\ Mono:bold:size=12
+
+! }}} Emacs Settings
+
+! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
+! use 'shell' template to set these if necessary
 

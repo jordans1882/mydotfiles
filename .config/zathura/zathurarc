@@ -1,48 +1,35 @@
-set statusbar-h-padding 0
-set statusbar-v-padding 0
-set page-padding 1
-map u scroll half-up
-map d scroll half-down
-map D toggle_page_mode
-map r reload
-map R rotate
-map K zoom in
-map J zoom out
+# Base16 Brush Trees Dark
+# Author: Abraham White &lt;abelincoln.white@gmail.com&gt;
 
-set selection-clipboard clipboard
+set default-bg                  "#485867"
+set default-fg                  "#5A6D7A"
 
+set statusbar-fg                "#98AFB5"
+set statusbar-bg                "#6D828E"
 
-set default-bg                  "{color11}"
-set default-fg                  "{color10}"
-#
-set statusbar-fg                "{color10}"
-set statusbar-bg                "{color0}"
-#
-# set inputbar-bg                 "{color0}"
-# set inputbar-fg                 "{color15}"
-#
-# set notification-bg             "{color0}"
-# set notification-fg             "{color15}"
-#
-# set notification-error-bg       "{color0}"
-# set notification-error-fg       "{color1}"
-#
-# set notification-warning-bg     "{color0}"
-# set notification-warning-fg     "{color1}"
-#
-# set highlight-color             "{color3}"
-# set highlight-active-color      "{color4}"
-#
-#set completion-bg               "{color1}"
-set completion-bg               "black"
-set completion-fg               "white"
-#
-# set completion-highlight-fg     "{color15}"
-# set completion-highlight-bg     "{color4}"
-#
-# set recolor-lightcolor          "{color0}"
-# set recolor-darkcolor           "{color15}"
-#
-# set recolor                     "false"
-# set recolor-keephue             "false"
-#
+set inputbar-bg                 "#485867"
+set inputbar-fg                 "#E3EFEF"
+
+set notification-bg             "#485867"
+set notification-fg             "#E3EFEF"
+
+set notification-error-bg       "#485867"
+set notification-error-fg       "#b38686"
+
+set notification-warning-bg     "#485867"
+set notification-warning-fg     "#b38686"
+
+set highlight-color             "#aab386"
+set highlight-active-color      "#868cb3"
+
+set completion-bg               "#5A6D7A"
+set completion-fg               "#868cb3"
+
+set completion-highlight-fg     "#E3EFEF"
+set completion-highlight-bg     "#868cb3"
+
+set recolor-lightcolor          "#485867"
+set recolor-darkcolor           "#C9DBDC"
+
+set recolor                     "false"
+set recolor-keephue             "false"

@@ -1,0 +1,5 @@
+* Private Configuration
+#+BEGIN_SRC emacs-lisp
+;; This is where I add private configurations
+
+#+END_SRC

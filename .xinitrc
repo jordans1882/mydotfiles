@@ -22,6 +22,8 @@ xset r rate 200 60
 [[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
 xcape -e 'Control_L=Escape'
 
+nm-applet &
+
 feh --bg-scale /home/jordan/wallpaper/golden-gate-bridge.jpg &
 
 xcompmgr &

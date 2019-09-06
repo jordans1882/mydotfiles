@@ -4,11 +4,39 @@
 # Purpose: September 1, 2018
 # }}} Header
 
+# {{{ Source shell environment
+source ~/.scripts/alias.sh
+# }}} Source
 
-# {{{ ENV
+function quit_fun() {
+  exit
+}
+
+zle -N quit_fun
+
+
+# {{{ Key Bindings
+bindkey '^P' up-history
+bindkey '^N' down-history
+bindkey '^?' backward-delete-char
+bindkey '^h' backward-delete-char
+bindkey '^w' backward-kill-word
+bindkey '^r' history-incremental-search-backward
+# }}} Key Bindings
+
+
+# {{{ Normal-mode mappings:
+
+bindkey -M vicmd 'q' quit_fun
+
+# }}} Normal-mode mappings:
+
+#git_custom_status=My_Cusom_Git_Status
+
+# {{{ Environment Variables
 HISTFILE=$HOME/.zsh_history
 APPEND_HISTORY=TRUE
-# }}} ENV
+# }}} Environment Variables
 # {{{ Load zplug
 ZPLUG_HOME=$HOME/git_repos/zplug
 source $ZPLUG_HOME/init.zsh
@@ -113,7 +141,7 @@ zplug "plugins/pip",   from:oh-my-zsh
 zplug "plugins/reminder",   from:oh-my-zsh
 zplug "plugins/taskwarrior",   from:oh-my-zsh
 zplug "plugins/tig",   from:oh-my-zsh
-zplug "plugins/tmux",   from:oh-my-zsh
+#zplug "plugins/tmux",   from:oh-my-zsh
 zplug "plugins/tmuxinator",   from:oh-my-zsh
 zplug "plugins/vi-mode",   from:oh-my-zsh
 zplug "plugins/wd",   from:oh-my-zsh
@@ -137,34 +165,54 @@ zplug "urbainvaes/fzf-marks"
 zplug "changyuheng/zsh-interactive-cd"
 
 # }}} zplug plugins
-# {{{ theme
-# Load theme file
+## {{{ theme
+## Load theme file
 zplug 'eendroroy/alien', as:theme
-# }}} theme
-# {{{ theme settings
-# # Load theme file
-# zplug 'dracula/zsh', as:theme
+## }}} theme
+## {{{ theme settings
+## # Load theme file
+## zplug 'dracula/zsh', as:theme
 export ALIEN_THEME="red"
 
-color0=204      # time background color
-color1=204      # normal background color
-color1r=196     # normal error background color
-color2=234      # time foreground color
-color3=180      # user background color
-color4=234      # user foreground color
-color5=078      # dir background color
-color6=234      # dir foreground color
-# color7=180      # vcs background color
-color8=204      # prompt foreground color
-# color9=249      # vcs foreground color
+color0=0      # time background color
+color1=1      # normal background color
+color1r=15     # normal error background color
+color2=2      # time foreground color
+color3=3      # user background color
+color4=4      # user foreground color
+color5=5      # dir background color
+color6=6      # dir foreground color
+color7=7      # vcs background color
+color8=8      # prompt foreground color
+color9=9      # vcs foreground color
+color10=7     # git left-right background color
+color11=4     # git left-right foreground color
+color12=12     # dirty copy background color
+color13=13    # dirty copy foreground color
+color14=14     # venv color
+color15=15
+
+
+
+#color0=204      # time background color
+#color1=204      # normal background color
+#color1r=196     # normal error background color
+#color2=234      # time foreground color
+#color3=180      # user background color
+#color4=234      # user foreground color
+#color5=078      # dir background color
+#color6=234      # dir foreground color
+##color7=180      # vcs background color
+#color8=204      # prompt foreground color
+#color9=249      # vcs foreground color
 #color10=244     # git left-right background color
 #color11=255     # git left-right foreground color
 #color12=253     # dirty copy background color
 #color13=016     # dirty copy foreground color
 #color14=245     # venv color
 
-export USE_NERD_FONT=1
-# }}} theme settings
+#export USE_NERD_FONT=1
+## }}} theme settings
 # {{{ plugin settings
 
 # {{{ deer
@@ -216,14 +264,21 @@ source ~/tmuxinator.zsh
 PATH=$PATH:/home/jordan/.local/bin
 PATH=$PATH:/home/jordan/.scripts
 PATH=$PATH:/home/jordan/.gem/ruby/2.6.0/bin
-QUBBD_DATA_PATH=/home/jordan/work/gleason/data/
+QUBBD_DATA_PATH=/home/jordan/data/gleason/
+PATH=$PATH:/opt/miniconda3/bin
+
 # }}} path
 # {{{ fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 fzf_history() { zle -I; eval $(history | fzf +s | sed 's/ *[0-9]* *//') ; }; zle -N fzf_history; bindkey '^F' fzf_history
 
-fzf_cd() { zle -I; DIR=$(find . -type d -print 2> /dev/null | fzf) && cd "$DIR" ; }; zle -N fzf_cd; bindkey '^E' fzf_cd
+fzf_cd() {
+  zle -I;
+  DIR=$(find . -type d -print 2> /dev/null | fzf) && cd "$DIR" ;
+};
+zle -N fzf_cd;
+bindkey '^E' fzf_cd
 
 function cd() {
     if [[ "$#" != 0 ]]; then
@@ -257,6 +312,8 @@ vg() {
      vim $file +$line
   fi
 }
+zle -N vg;
+bindkey '^G' vg
 
 fd() {
   local dir
@@ -269,46 +326,11 @@ fd() {
 fh() {
   print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
 }
+#zle -N fh; bindkey '^H' fh
 
 source $HOME/git_repos/zsh-interactive-cd/zsh-interactive-cd.plugin.zsh
 
 # }}} fzf
-# {{{ config file aliases
-alias config='/usr/bin/git --git-dir=$HOME/git_repos/mydotfiles --work-tree=$HOME'
-alias cfg-awesome="vim ~/.config/awesome/rc.lua"
-alias cfg-muttrc="vim ~/.muttrc"
-alias cfg-nvim="vim ~/.config/nvim/init.vim"
-alias cfg-taskrc="vim ~/.taskrc"
-alias cfg-tmuxconf="vim ~/dot_files/.tmux.conf"
-alias cfg-vimrc="vim ~/dot_files/.vimrc"
-alias cfg-vitrc="vim ~/.vitrc"
-alias cfg-zshrc="vim ~/.zshrc"
-alias config='/usr/bin/git --git-dir=$HOME/git_repos/mydotfiles --work-tree=$HOME'
-alias priv_config='/usr/bin/git --git-dir=$HOME/git_repos/private_dots --work-tree=$HOME'
-
-# }}} config file aliases
-# {{{ program aliases
-alias c="cmus"
-alias ve="emacs --no-window-system -q -l ~/.emacs.d/vanilla/init.el"
-alias e="emacs --no-window-system -q -l ~/.emacs.d/main/init.el"
-alias emacs='emacs -q -l ~/.emacs.d/main/init.el'
-alias spacemacs='emacs -q -l ~/.emacs.d/spacemacs/init.el'
-alias ipy="ipython"
-alias ls="lsd" # or use ls --color
-alias m="mutt"
-alias n="nvim"
-alias o="okular"
-alias r="ranger"
-alias t="tmux"
-alias v="vim --cmd 'let g:elite_mode=1'"
-alias vv="vim --cmd 'let g:Vanilla=1'"
-alias vd="vim --cmd 'let g:DefaultVim=1'"
-alias q="exit"
-alias z="zathura"
-#  }}} program aliases
-#  {{{ Utility Aliases
-alias cl="clear; ls"
-#  }}} Utility Aliases
 # {{{ Connection aliases
 alias do_ssh="ssh -Y root@142.93.118.208"
 # }}} Connection aliases
@@ -320,20 +342,31 @@ fi
 # {{{ User Defined Functions and bindings
 cdl() { cd "$@" && clear && ls; }
 
+# Change tab title
+function tab_title {
+  if [ -z "$1" ]
+  then
+    title=${PWD##*/} # current directory
+  else
+    title=$1 # first param
+  fi
+  echo -n -e "\033]0;$title\007"
+}
+
 up-a-directory() {
   emulate -L zsh
   echo
   cd ..
   ls
 }
+zle -N up-a-directory
 
 function chpwd() {
     emulate -L zsh
     ls
 }
 
-zle -N up-a-directory
-
+# Key bindings
 bindkey '^k' up-a-directory
 
 shdl() { curl -O $(curl -s http://sci-hub.tw/"$@" | grep location.href | sed -n "s/.*\(http.*pdf\).*/\1/p") ;}
@@ -351,6 +384,11 @@ vf() { fzf | xargs -r -I % $EDITOR % ;}
 # fortune | ponysay
 # }}} Startup commands
 
+# {{{ Programming Languages
+
+# {{{ Haskell
+
+# {{{ GHCI STUFF
 # unregister broken GHC packages. Run this a few times to resolve dependency rot in installed packages.
 # ghc-pkg-clean -f cabal/dev/packages*.conf also works.
 function ghc-pkg-clean() {
@@ -374,11 +412,17 @@ function ghc-pkg-reset() {
     echo 'erasing ~/.cabal/lib'; command rm -rf ~/.cabal/lib; \
   )
 }
-
+# }}} GHCI STUFF
+# {{{ Cabal Stuff
 alias cabalupgrades="cabal list --installed  | egrep -iv '(synopsis|homepage|license)'"
-
-
 PATH=$PATH:~/.cabal/bin
+# }}} Cabal Stuff
+
+# }}} Haskell
+
+# }}} Programming Languages
+
+alias tt="tab_title"
 
 # {{{ ENV
 HISTFILE=$HOME/.zsh_history
@@ -391,6 +435,82 @@ setopt append_history # append rather then overwrite
 setopt extended_history # save timestamp
 setopt inc_append_history # add history immediately after typing a command
 
+function zle-line-init zle-keymap-select {
+    VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
+    RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $EPS1"
+    zle reset-prompt
+}
+# $(git_custom_status)
+zle -N zle-line-init
+zle -N zle-keymap-select
+export KEYTIMEOUT=1
+
 # {{{ vim modelines
 # vim: set foldmethod=marker:
 # }}} vim modelines
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/opt/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/opt/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+# {{{ reload source
+reload_source () {
+  source ~/.zshrc
+}
+zle -N reload_source
+bindkey '^b' reload_source
+
+
+
+# }}} reload source
+
+# {{{ toggle background
+# dark?: brushtrees-dark
+# dark: embers
+# light: brushtrees
+# echo $bg_type
+toggle_bg () {
+  if [ "$bg_type" = 'light' ]; then
+      bg_type='dark'
+      base16-manager set porple
+    else
+      bg_type='light'
+      base16-manager set harmonic-light
+    fi
+}
+
+zle -N toggle_bg
+bindkey '^y' toggle_bg
+
+
+random_bg () {
+ base16-manager set-random
+}
+zle -N random_bg
+bindkey '^z' random_bg
+
+
+# }}} toggle background
+
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/"
+[ -n "$PS1" ] && \
+    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+        eval "$("$BASE16_SHELL/profile_helper.sh")"

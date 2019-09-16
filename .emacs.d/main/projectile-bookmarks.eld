@@ -1,1 +1,1 @@
-("~/" "~/school/comptag/" "~/Dropbox/js_dissertation_research/" "~/work/gleason/")
+("~/" "~/.emacs.d/main/request/" "~/.emacs.d/main/icicles-el-files/" "~/.emacs.d/main/games/" "~/.emacs.d/main/eshell/" "~/.emacs.d/main/elpa/" "~/.emacs.d/main/auto-save-list/" "~/work/ret/" "~/work/gleason_old/" "~/work/gleason/" "~/projects/template/" "~/projects/my_qubbd/" "~/Dropbox/js_dissertation_research/" "~/school/comptag/public_html/" "~/school/comptag/" "~/books/")

@@ -5,6 +5,10 @@
 * Pre package load user defined options
 
 #+BEGIN_SRC emacs-lisp
+
+;; Disable spash screen
+(setq inhibit-splash-screen t)
+
 ;; Set fold path
 (add-to-list 'load-path "~/.emacs.d/load-folder/")
 
@@ -53,6 +57,9 @@
 ** auto-complete
 #+BEGIN_SRC emacs-lisp
 (use-package auto-complete)
+(ac-config-default)
+
+
 #+END_SRC
 ** elfeed
 #+BEGIN_SRC emacs-lisp
@@ -63,6 +70,10 @@
 (elfeed-org)
 (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org"))
 (elfeed-goodies/setup)
+#+END_SRC
+** ein
+#+BEGIN_SRC emacs-lisp
+(use-package ein)
 #+END_SRC
 ** ess
 *** General Settings
@@ -75,6 +86,7 @@
 #+BEGIN_SRC emacs-lisp
 ;;(global-set-key (kbd "C-c <C-return>") 'ess-eval-region-or-line-and-step)
 #+END_SRC
+
 
 ** evil
 *** Load emacs
@@ -122,7 +134,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 #+END_SRC
 ** evil-tabs
 #+BEGIN_SRC emacs-lisp
-;;(global-evil-tabs-mode t)
+(use-package evil-tabs)
+(global-evil-tabs-mode t)
 #+END_SRC
 ** evil-collection
 #+BEGIN_SRC emacs-lisp
@@ -150,6 +163,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;(haskell-program-name ghci)
 
 #+END_SRC
+** helm
+#+BEGIN_SRC emacs-lisp
+(use-package helm)
+(global-set-key (kbd "M-x") 'helm-M-x)
+#+END_SRC
 
 ** flymake
 #+BEGIN_SRC emacs-lisp
@@ -160,6 +178,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 #+BEGIN_SRC emacs-lisp
 (use-package flycheck)
 (add-hook 'after-init-hook #'global-flycheck-mode)
+#+END_SRC
+** lorem-ipsum
+#+BEGIN_SRC emacs-lisp
+(use-package lorem-ipsum)
+(lorem-ipsum-use-default-bindings)
 #+END_SRC
 ** origami
 #+BEGIN_SRC emacs-lisp
@@ -251,10 +274,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 #+END_SRC
 
 
-** org-gcal
-#+BEGIN_SRC emacs-lisp
-;; (require 'org-gcal)
-#+END_SRC
 ** org-capture
 #+BEGIN_SRC emacs-lisp
 ;; (setq org-capture-templates
@@ -273,6 +292,17 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; 	("s" "Screencast" entry (file "~/Dropbox/orgfiles/screencastnotes.org")
 ;; 	 "* %?\n%i\n")))
 #+END_SRC
+
+** org-gcal
+#+BEGIN_SRC emacs-lisp
+;; (require 'org-gcal)
+#+END_SRC
+** org-noter
+#+BEGIN_SRC emacs-lisp
+(require 'org-noter)
+#+END_SRC
+
+
 
 ** org-ref
 #+BEGIN_SRC emacs-lisp
@@ -293,6 +323,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 #+BEGIN_SRC emacs-lisp
 (use-package projectile)
 (projectile-mode 1)
+(setq projectile-project-search-path '("~/projects/" "~/work/" "~/.emacs.d/main/"))
+#+END_SRC
+** Helm Projectile
+#+BEGIN_SRC emacs-lisp
+(use-package helm-projectile)
+(helm-projectile-on)
 #+END_SRC
 
 ** pyvenv
@@ -324,42 +360,136 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 * Post package load user defined options
 
 ** User defined keybindings
+*** General Setup
 #+BEGIN_SRC emacs-lisp
+;; General Setup
 
-(set-default-font "UbuntuMono Nerd Font Mono-24")
-(set-face-attribute 'default nil :font "UbuntuMono Nerd Font Mono-24" )
-(set-frame-font "UbuntuMono Nerd Font Mono-24" nil t)
-
-
-;; User defined keybindings:
-
-;; Buffer Keybindings:
-;; (global-set-key (kbd "; b l") 'next buffer)
-
+;; Create user keymap (personal leader)
 (defvar my-leader-map (make-sparse-keymap)
   "Keymap for \"leader key\" shortcuts.")
 
 ;; binding "," to the keymap
 (define-key evil-normal-state-map "," my-leader-map)
 
-;; binding ",b"
-(define-key my-leader-map "bf" 'helm-buffers-list)
-(define-key my-leader-map "bn" 'next-buffer)
-(define-key my-leader-map "bb" 'previous-buffer)
-(define-key my-leader-map "wh" 'evil-window-previous)
-(define-key my-leader-map "wl" 'evil-window-next)
-(define-key my-leader-map "wj" 'evil-window-down)
-(define-key my-leader-map "wk" 'evil-window-up)
+#+END_SRC
 
+*** Applications
+#+BEGIN_SRC emacs-lisp
+;; binding ",a" for applications
+(define-key my-leader-map "ae" 'eshell)
+#+END_SRC
 
-;; q for quit... :)
-(define-key evil-normal-state-map (kbd "Q") 'evil-record-macro)
-(define-key evil-normal-state-map (kbd "q") 'save-buffers-kill-terminal)
+*** Emacs Operations
+
+#+BEGIN_SRC emacs-lisp
+
+;; binding ",e" for emacs
+(defun edit-config ()
+  (interactive)
+  (find-file "~/.emacs.d/main/config.org"))
+
+(defun reload-config ()
+  (interactive)
+  (load-file "~/.emacs.d/main/init.el"))
+
+(define-key my-leader-map "ee" 'edit-config)
+(define-key my-leader-map "er" 'reload-config)
 
 #+END_SRC
 
 
+*** Helm Operations
 
+#+BEGIN_SRC emacs-lisp
+;; binding ",h" for helm menu
+(define-key my-leader-map "hb" 'helm-buffers-list)
+(define-key my-leader-map "hm" 'helm-M-x)
+(define-key my-leader-map "hf" 'helm-find-files)
+#+END_SRC
+
+*** File Operations
+#+BEGIN_SRC emacs-lisp
+;; binding ",f" for files
+(define-key my-leader-map "ff" 'helm-find-files)
+#+END_SRC
+
+*** Buffer Operations
+#+BEGIN_SRC emacs-lisp
+;; binding ",b" for buffers
+(define-key my-leader-map "bf" 'helm-buffers-list)
+(define-key my-leader-map "bl" 'next-buffer)
+(define-key my-leader-map "bh" 'previous-buffer)
+(define-key my-leader-map "bn" 'evil-buffer-new)
+
+#+END_SRC
+
+*** Project Operations
+#+BEGIN_SRC emacs-lisp
+;; binding ",p" for projects
+(define-key my-leader-map "po" 'projectile-switch-project)
+(define-key my-leader-map "pf" 'projectile-find-file)
+(define-key my-leader-map "pr" 'projectile-ripgrep)
+
+
+
+#+END_SRC
+*** Window Operations
+#+BEGIN_SRC emacs-lisp
+;; binding ",w" for windows
+(define-key my-leader-map "wd" 'evil-window-delete)
+(define-key my-leader-map "wl" 'evil-window-next)
+(define-key my-leader-map "wh" 'evil-window-previous)
+(define-key my-leader-map "wl" 'evil-window-next)
+(define-key my-leader-map "wn" 'evil-window-new)
+(define-key my-leader-map "wj" 'evil-window-down)
+(define-key my-leader-map "wk" 'evil-window-up)
+(define-key my-leader-map "w|" 'evil-window-vsplit)
+(define-key my-leader-map "w-" 'evil-window-split)
+(define-key my-leader-map "wJ" 'evil-window-decrease-height)
+(define-key my-leader-map "wK" 'evil-window-increase-height)
+(define-key my-leader-map "wH" 'evil-window-decrease-width)
+(define-key my-leader-map "wL" 'evil-window-increase-width)
+#+END_SRC
+
+*** Tab Operations
+#+BEGIN_SRC emacs-lisp
+
+
+;; binding ",t" for tabs
+;;(define-key my-leader-map "tn" (lambda () (interactive) ('tabnew)))
+
+(define-key my-leader-map "td" 'elscreen-kill)
+(define-key my-leader-map "tl" 'elscreen-next)
+(define-key my-leader-map "th" 'elscreen-previous)
+(define-key my-leader-map "tn" 'elscreen-create)
+(define-key my-leader-map "tr" 'elscreen-screen-nickname)
+(define-key my-leader-map "tt" 'elscreen-toggle)
+(define-key my-leader-map "ts" 'elscreen-swap)
+
+
+#+END_SRC
+
+*** Miscellaneous
+
+#+BEGIN_SRC emacs-lisp
+;; q for quit... :)
+(define-key evil-normal-state-map (kbd "Q") 'evil-record-macro)
+(define-key evil-normal-state-map (kbd "q") 'save-buffers-kill-terminal)
+
+
+#+END_SRC
+
+*** Font settings
+#+BEGIN_SRC emacs-lisp
+
+(set-default-font "UbuntuMono Nerd Font Mono-24")
+(set-face-attribute 'default nil :font "UbuntuMono Nerd Font Mono-24" )
+(set-frame-font "UbuntuMono Nerd Font Mono-24" nil t)
+
+(define-key my-leader-map "xi" 'text-scale-increase)
+(define-key my-leader-map "xd" 'text-scale-decrease)
+
+#+END_SRC
 ** my-keys-minor-mode
 #+BEGIN_SRC emacs-lisp
 ;; (defvar my-keys-minor-mode-map
@@ -416,7 +546,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; }}} Define evil-mode mappings for vim-style folding
 
 #+END_SRC
-
 
 * Load Private Config
 

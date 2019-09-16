@@ -1,34 +1,3 @@
-tox
-tox
-Welcome to the Emacs shell
-tox
-_____________________________________________________ summary ______________________________________________________
-tox
-tox
-tox
-tox
-tox
-tox
-tox
-tox
-tox
-to
-tox
-tox
-tox
-src/data/make_dataset_test.py ..                                                                             [100%]
-conda install pandas
-tox
-tox
-pip install Sphinx
-sudo pip install Sphinx
-tox
-ls
-rm -r __pycache__/ _build/ _static/ _templates/ example_pkg_your_username.egg-info/ make.bat 
-ls
-tox
-ls
-cd docs/
 ls
 cd ..
 v index.rst 
@@ -126,3 +95,34 @@ ls
 v tox.ini 
 ls
 ls -la
+ls
+r
+ranger
+ls
+ls -a
+sudo pacman -S surfraw
+quit
+exit
+q
+exit
+git init
+git remote add git@github.com:jordans1882/my_gleason_repo.git
+git remote --add git@github.com:jordans1882/my_gleason_repo.git
+git remote add origin master git@github.com:jordans1882/my_gleason_repo.git
+git remote add origin git@github.com:jordans1882/my_gleason_repo.git
+git pull
+ls
+ls -a
+git checkout master
+git branch --set-upstream-to=origin master
+git pull -u
+git push -u origin master
+git pull
+git status
+ls
+cd pif_convergence/
+ls
+cd ..
+cd ..
+ls
+cd template/

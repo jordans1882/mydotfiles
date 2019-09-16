@@ -1,3 +1,6 @@
+;; Disable spash screen
+(setq inhibit-splash-screen t)
+
 ;; Set fold path
 (add-to-list 'load-path "~/.emacs.d/load-folder/")
 
@@ -33,6 +36,7 @@
 ;; (load-theme 'airline-one-dark t)
 
 (use-package auto-complete)
+(ac-config-default)
 
 (use-package elfeed)
 (global-set-key (kbd "C-x w") 'elfeed)
@@ -41,6 +45,8 @@
 (elfeed-org)
 (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org"))
 (elfeed-goodies/setup)
+
+(use-package ein)
 
 (use-package ess)
 ;; (use-package 'ess-site)
@@ -76,7 +82,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (global-set-key (kbd "C-c C-g") 'evil-escape)
 
-;;(global-evil-tabs-mode t)
+(use-package evil-tabs)
+(global-evil-tabs-mode t)
 
 (use-package evil-collection)
 (evil-collection-init)
@@ -94,11 +101,17 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (use-package haskell-mode)
 ;;(haskell-program-name ghci)
 
+(use-package helm)
+(global-set-key (kbd "M-x") 'helm-M-x)
+
 ;; (use-package flymake)
 ;; (add-hook 'after-init-hook #'global-flycheck-mode)
 
 (use-package flycheck)
 (add-hook 'after-init-hook #'global-flycheck-mode)
+
+(use-package lorem-ipsum)
+(lorem-ipsum-use-default-bindings)
 
 (use-package origami)
 ;;origami https://github.com/gregsexton/origami.el
@@ -174,8 +187,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (octave . t)
     (R . t)))
 
-;; (require 'org-gcal)
-
 ;; (setq org-capture-templates
 ;;       '(("a" "Appointment" entry (file  "~/Dropbox/orgfiles/gcal.org" )
 ;; 	 "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
@@ -192,6 +203,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; 	("s" "Screencast" entry (file "~/Dropbox/orgfiles/screencastnotes.org")
 ;; 	 "* %?\n%i\n")))
 
+;; (require 'org-gcal)
+
+(require 'org-noter)
+
 (require 'org-ref)
 ;; org-ref-bibliography-notes "~/Dropbox/bibliography/notes.org"
 ;; org-ref-pdf-directory "~/Dropbox/bibliography/bibtex-pdfs/")
@@ -203,6 +218,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (use-package projectile)
 (projectile-mode 1)
+(setq projectile-project-search-path '("~/projects/" "~/work/" "~/.emacs.d/main/"))
+
+(use-package helm-projectile)
+(helm-projectile-on)
 
 (use-package pyvenv)
 (setenv "WORKON_HOME" "/home/jordan/.conda/envs")
@@ -217,35 +236,85 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (require 'which-key)
 (which-key-mode)
 
-(set-default-font "UbuntuMono Nerd Font Mono-24")
-(set-face-attribute 'default nil :font "UbuntuMono Nerd Font Mono-24" )
-(set-frame-font "UbuntuMono Nerd Font Mono-24" nil t)
+;; General Setup
 
-
-;; User defined keybindings:
-
-;; Buffer Keybindings:
-;; (global-set-key (kbd "; b l") 'next buffer)
-
+;; Create user keymap (personal leader)
 (defvar my-leader-map (make-sparse-keymap)
   "Keymap for \"leader key\" shortcuts.")
 
 ;; binding "," to the keymap
 (define-key evil-normal-state-map "," my-leader-map)
 
-;; binding ",b"
+;; binding ",a" for applications
+(define-key my-leader-map "ae" 'eshell)
+
+;; binding ",e" for emacs
+(defun edit-config ()
+  (interactive)
+  (find-file "~/.emacs.d/main/config.org"))
+
+(defun reload-config ()
+  (interactive)
+  (load-file "~/.emacs.d/main/init.el"))
+
+(define-key my-leader-map "ee" 'edit-config)
+(define-key my-leader-map "er" 'reload-config)
+
+;; binding ",h" for helm menu
+(define-key my-leader-map "hb" 'helm-buffers-list)
+(define-key my-leader-map "hm" 'helm-M-x)
+(define-key my-leader-map "hf" 'helm-find-files)
+
+;; binding ",f" for files
+(define-key my-leader-map "ff" 'helm-find-files)
+
+;; binding ",b" for buffers
 (define-key my-leader-map "bf" 'helm-buffers-list)
-(define-key my-leader-map "bn" 'next-buffer)
-(define-key my-leader-map "bb" 'previous-buffer)
+(define-key my-leader-map "bl" 'next-buffer)
+(define-key my-leader-map "bh" 'previous-buffer)
+(define-key my-leader-map "bn" 'evil-buffer-new)
+
+;; binding ",p" for projects
+(define-key my-leader-map "po" 'projectile-switch-project)
+(define-key my-leader-map "pf" 'projectile-find-file)
+(define-key my-leader-map "pr" 'projectile-ripgrep)
+
+;; binding ",w" for windows
+(define-key my-leader-map "wd" 'evil-window-delete)
+(define-key my-leader-map "wl" 'evil-window-next)
 (define-key my-leader-map "wh" 'evil-window-previous)
 (define-key my-leader-map "wl" 'evil-window-next)
+(define-key my-leader-map "wn" 'evil-window-new)
 (define-key my-leader-map "wj" 'evil-window-down)
 (define-key my-leader-map "wk" 'evil-window-up)
+(define-key my-leader-map "w|" 'evil-window-vsplit)
+(define-key my-leader-map "w-" 'evil-window-split)
+(define-key my-leader-map "wJ" 'evil-window-decrease-height)
+(define-key my-leader-map "wK" 'evil-window-increase-height)
+(define-key my-leader-map "wH" 'evil-window-decrease-width)
+(define-key my-leader-map "wL" 'evil-window-increase-width)
 
+;; binding ",t" for tabs
+;;(define-key my-leader-map "tn" (lambda () (interactive) ('tabnew)))
+
+(define-key my-leader-map "td" 'elscreen-kill)
+(define-key my-leader-map "tl" 'elscreen-next)
+(define-key my-leader-map "th" 'elscreen-previous)
+(define-key my-leader-map "tn" 'elscreen-create)
+(define-key my-leader-map "tr" 'elscreen-screen-nickname)
+(define-key my-leader-map "tt" 'elscreen-toggle)
+(define-key my-leader-map "ts" 'elscreen-swap)
 
 ;; q for quit... :)
 (define-key evil-normal-state-map (kbd "Q") 'evil-record-macro)
 (define-key evil-normal-state-map (kbd "q") 'save-buffers-kill-terminal)
+
+(set-default-font "UbuntuMono Nerd Font Mono-24")
+(set-face-attribute 'default nil :font "UbuntuMono Nerd Font Mono-24" )
+(set-frame-font "UbuntuMono Nerd Font Mono-24" nil t)
+
+(define-key my-leader-map "xi" 'text-scale-increase)
+(define-key my-leader-map "xd" 'text-scale-decrease)
 
 ;; (defvar my-keys-minor-mode-map
 ;;   (let ((map (make-sparse-keymap)))

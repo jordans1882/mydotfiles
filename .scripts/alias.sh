@@ -15,10 +15,10 @@ alias priv_config='/usr/bin/git --git-dir=$HOME/git_repos/private_dots --work-tr
 # }}} config file aliases
 # {{{ Program Aliases
 alias c="cmus"
-alias ve="emacs --no-window-system -q -l ~/.emacs.d/vanilla/init.el"
-alias e="emacs --no-window-system -q -l ~/.emacs.d/main/init.el"
-alias emacs='emacs -q -l ~/.emacs.d/main/init.el'
-alias spacemacs='emacs -q -l ~/.emacs.d/spacemacs/init.el'
+#alias ve="emacs --no-window-system -q -l ~/.emacs.d/vanilla/init.el"
+#alias e="emacs --no-window-system -q -l ~/.emacs.d/main/init.el"
+#alias emacs='emacs -q -l ~/.emacs.d/main/init.el'
+#alias spacemacs='emacs -q -l ~/.emacs.d/spacemacs/init.el'
 alias ipy="ipython"
 #alias ls="lsd" # or use ls --color
 alias ls="ls --color"
